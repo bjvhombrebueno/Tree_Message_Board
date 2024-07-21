@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h2>Staff Landing Page</h2>
+<p>Welcome back, {{ username }}!</p>
+
+<style>
+    .btn-group .button {
+      background-color: #0a04aa; /* Green */
+      border: 1px solid blue;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      cursor: pointer;
+      width: 150px;
+      display: block;
+    }
+    
+    .btn-group .button:not(:last-child) {
+      border-bottom: none; /* Prevent double borders */
+    }
+    
+    .btn-group .button:hover {
+      background-color: #3e698e;
+    }
+    </style>
+    
+    <div class="btn-group">
+      <button class="button">About</button>
+      <button class="button">Contact Us</button>
+      <button class="button">Reports</button>
+      <button class="button">Manage Users</button>
+    </div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h2>User Landing Page</h2>
+<p>Welcome back, {{ username }}!</p>
+<style>
+    .btn-group .button {
+      background-color: #7604aa; /* Green */
+      border: 1px solid rgb(44, 1, 57);
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      cursor: pointer;
+      width: 150px;
+      display: block;
+    }
+    
+    .btn-group .button:not(:last-child) {
+      border-bottom: none; /* Prevent double borders */
+    }
+    
+    .btn-group .button:hover {
+      background-color: #748390;
+    }
+    </style>
+    
+    <div class="btn-group">
+      <button class="button">Reports</button>
+      <button class="button">Get Help</button>
+    </div>
+{% endblock %}
