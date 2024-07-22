@@ -12,11 +12,11 @@ from loginapp import connect
 hashing = Hashing(app)  #create an instance of hashing
 
 # Change this to your secret key (can be anything, it's for extra protection)
-app.secret_key = 'ExampleSecretKey'
+app.secret_key = 'COMP639$3cr3+K3y'
 
 # IMPORTANT: Change 'ExampleSaltValue' to whatever salt value you'll use in
 # your application. If you don't do this, your password hashes won't work!
-PASSWORD_SALT = 'ExampleSaltValue'
+PASSWORD_SALT = 'COMP639$@7+V@7u3'
 
 # Default role assigned to new users upon registration.
 DEFAULT_USER_ROLE = 'user'
