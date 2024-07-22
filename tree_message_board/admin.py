@@ -2,7 +2,7 @@ from flask import render_template
 from flask import redirect
 from flask import url_for
 from flask import session
-from loginapp import app
+from tree_message_board import app
 
 @app.route('/admin/home')
 def admin_home():

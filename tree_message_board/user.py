@@ -6,8 +6,8 @@ from flask import session
 import re
 import mysql.connector
 from flask_hashing import Hashing
-from loginapp import app
-from loginapp import connect
+from tree_message_board import app
+from tree_message_board import connect
 
 hashing = Hashing(app)  #create an instance of hashing
 
