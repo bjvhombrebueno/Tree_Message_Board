@@ -68,6 +68,7 @@ def login():
                 session['id'] = account['user_id']
                 session['username'] = account['username']
                 session['role'] = account['role']
+               
                 # Redirect to home page
                 if session['role'] == 'user':
                     return redirect(url_for('user_home'))
@@ -132,7 +133,12 @@ def user_home():
     # Check if user is loggedin
     if 'loggedin' in session:
         # User is loggedin show them the home page
-        return render_template('home.html', username=session['username'], user_role=session['role'])
+        # Get all the messages in the database
+        cursor = getCursor()
+        cursor.execute('SELECT * FROM messages',)
+        allMessages = cursor.fetchall()
+
+        return render_template('home.html', username=session['username'], user_role=session['role'],  allmessages= allMessages)
     
     # User is not logged in - redirect to login page
     return redirect(url_for('login'))
