@@ -40,12 +40,12 @@ hashing = Hashing(app)
 
 # Replace the example UserAccount objects below with the initial user accounts
 # for your own web app. You can add as many as you need to the list.
-users = [UserAccount('user1', 'user1pass'), 
-         UserAccount('user2', 'user2pass'),
-         UserAccount('staff1', 'staff1pass'),
-         UserAccount('staff2', 'staff2pass'),
-         UserAccount('admin1', 'admin1pass'),
-         UserAccount('admin2', 'admin2pass')]
+users = [UserAccount('q', 'q'), 
+         UserAccount('w', 'w'),
+         UserAccount('a', 'a'),
+         UserAccount('s', 's'),
+         UserAccount('z', 'z'),
+         UserAccount('x', 'x')]
 
 print('Username | Password | Hash | Password Matches Hash')
 

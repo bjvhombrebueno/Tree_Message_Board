@@ -1,49 +1,28 @@
-{% extends "base.html" %}
+{% extends "layout.html" %}
 
 {% block content %}
 
 <h2 class="text-center">Create Post</h2>
 <br>
-    <!-- {% if customerid %}
-        
-        <form action="/customerhome/edit" method="POST" class="row needs-validation">
-    {% else %}
-        
-        <form action="/customer/add" method="POST" class="row needs-validation">
-    {% endif %}
-        
-        <input type = "hidden" name = "customerid" value="{{customerid}}"/>
-
+    <form action="/create_post" method="POST" class="row needs-validation">
+    
             <div class="container text-center">
                 <div class = "row justify-content-center">
                     <div class="col-auto">
-                        <label for="firstname" class="form-label">First name: </label><br>
-                        <input type="text" class="form-control" name="firstname" {% if customerdata %} value="{{customerdata[1]}}" {% endif %} pattern= "(^[a-zA-Z][a-zA-Z\s]{0,60}[a-zA-Z]$)" required />
+                        <label for="title" class="form-label">Title: </label><br>
+                        <input type="text" class="form-control" name="title" pattern= "(^[a-zA-Z][a-zA-Z\s]{0,60}[a-zA-Z]$)" required />
                         <div class="invalid-feedback">
-                            Please enter valid first name
+                            Please enter valid Title
                         </div>  
                     </div>
                     <div class="col-auto">
-                        <label for="familyname" class="form-label">Family name: </label><br>
-                        <input type="text" class="form-control" name="familyname" {% if customerdata %} value="{{customerdata[2]}}" {% endif %} pattern="(^[a-zA-Z][a-zA-Z\s]{0,60}[a-zA-Z]$)" required />
+                        <label for="content" class="form-label">Content</label>
+                        <textarea class="form-control" id="content" name="content" rows="10" required></textarea>
                         <div class="invalid-feedback">
-                            Please enter valid family name
+                            Please enter content
                         </div>  
-                    </div>
-                    <div class="col-auto">
-                        <label for="email" class="form-label">Email Address: </label><br>
-                        <input name="email" type="email" id="typeEmail" class="form-control"  {% if customerdata %} value="{{customerdata[3]}}" {% endif %} pattern="^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required/>
-                        <div class="invalid-feedback">
-                        Please enter valid email address
-                        </div>  
-                    </div>
-                    <div class="col-auto">
-                        <label for="phone" class="form-label">Phone number: </label>
-                        <input name="phone" class="form-control" type="tel" pattern = "^0\d{8,10}$" {% if customerdata %} value="{{customerdata[4]}}" {% endif %} required/>
-                        <div class="invalid-feedback">
-                            Please enter valid phone number
-                        </div>  
-                    </div>
+                      </div>
+                    
                     <div class = "col-auto">
                         <br>
                         <input class="btn btn-secondary" type="submit"/>
@@ -52,7 +31,7 @@
                 
             </div>   
         
-    </form> -->
+    </form>
 
 
 {% endblock %}

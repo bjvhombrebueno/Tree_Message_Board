@@ -28,10 +28,31 @@
     }
     </style>
     
-    <div class="btn-group">
+    <!-- <div class="btn-group">
       <a href="./create_post.html" class="btn btn-info" role="button">Create Post</a>
       <button class="button">Get Help</button>
+    </div> -->
+    <form action="/home.html" method="POST">
+      
+      <div class="container text-center">
+        <div class = "row justify-content-center">
+          <div class = "col-auto">
+            <br>
+            <a href={{url_for('create_post')}} type="button" class="btn btn-secondary">Create Post</a>
+        </div>
+            <div class = "col-auto">
+                <br>
+                <a href="/user/create_post.html" type="button" class="btn btn-secondary">Create Post</a>
+        </div>
+            </div>
+            <div class = "col-auto">
+                <br>
+                <a href="/user/create_post.html" type="button" class="btn btn-secondary">Create Post</a>
+        </div>
+            </div>
+        </div>
     </div>
+  </form>
 
     {{allmessages}}
 {% endblock %}

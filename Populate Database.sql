@@ -18,11 +18,11 @@ USE loginexample;
 -- -----------------------------------------------------
 
 INSERT INTO `tmb`.`users` (`username`, `password_hash`, `email`,`first_name`,`last_name`,`birth_date`,`location`,`profile_image`, `role`,`status`) VALUES
-    ('user1', '0d1d8a8e4ca6e11ff10a55af99aa373fc4672c56b039f3ee54717b695fc9afbb', 'user1@example.com','Aurora', 'Hayes','1990-05-03','UK','1','user','active'),
-    ('user2', '28bc6a7e960b4b80674b428549454b0c149a58114cde7888c383e4c6391ed784', 'user2@example.com','Caleb', 'Brooks','1992-12-01','Auckland','2','user','active'),
-    ('staff1', 'aa6b3c57fb74f6b0c4d3854c9fc8ea39b0a56f7a354f68e4c59b33d933b711c9', 'staff1@example.com','Serena', 'Yang','1985-07-23','Melbourne','3','staff','active'),
-    ('staff2', '90c9e60cc23b12dc15eb3fc4fe3f5acb7d9f7878c0330689f11727c5fabcdb97', 'staff2@example.com','Declan', 'Ramirez','1989-04-05','Manila','4','staff','active'),
-    ('admin1', 'ee7f73daf48a0bb3b67ad89334e8cbeabba6d9f3b7ddb3e0bb5ea8ee269eb15b', 'admin1@example.com','Maya', 'Patel','2004-10-12','Spain','5','admin','active' );
+    ('q', 'c0f5955762c38545329a68b69ca288f78485ed0688d7cb0227085d9387f9ff63', 'user1@example.com','Aurora', 'Hayes','1990-05-03','UK','1','user','active'),
+    ('w', '1388054c565184f9ec3fd9c513cab1b462e32cfb4089a22e0de1c6a7ccec49f6', 'user2@example.com','Caleb', 'Brooks','1992-12-01','Auckland','2','user','active'),
+    ('a', '1762c21ca0f4a09591f67e584d8eb49eb35b8ecf3a6d1b19283efbe938055334', 'staff1@example.com','Serena', 'Yang','1985-07-23','Melbourne','3','staff','active'),
+    ('s', 'cdd02df61b7560b474935c00e0bfcba3905a99d2246f3060083d120df677132f', 'staff2@example.com','Declan', 'Ramirez','1989-04-05','Manila','4','staff','active'),
+    ('z', '8764663dced6e67a402365383654a427c5eb0cdf6f6428c0496c6d463b15cf08', 'admin1@example.com','Maya', 'Patel','2004-10-12','Spain','5','admin','active' );
 
 INSERT INTO `tmb`.`messages` (`user_id`,`title`,`content`,`created_at`) VALUES 
 ('1', 'The Healing Power of Forest Bathing', 'Immersing oneself in the serene embrace of a forest, known as forest bathing or shinrin-yoku, offers more than just a scenic retreat. Scientific studies have shown that spending time among trees can lower stress levels, boost immune function, and improve overall well-being. Whether you prefer the towering redwoods of California or the ancient beech forests of Europe, each tree-filled sanctuary provides a therapeutic escape from the bustle of daily life. Share your favorite forest bathing experiences and discover the rejuvenating effects of natures embrace.','2024-07-17 10:15:00'),

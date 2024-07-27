@@ -4,6 +4,7 @@ from flask import redirect
 from flask import url_for
 from flask import session
 import re
+import datetime
 import mysql.connector
 from flask_hashing import Hashing
 from tree_message_board import app
@@ -128,7 +129,7 @@ def register():
     return render_template('register.html', msg=msg)
 
 # http://localhost:5000/home - this will be the home page, only accessible for loggedin users
-@app.route('/user/home')
+@app.route('/user/home', methods=['GET','POST'])
 def user_home():
     # Check if user is loggedin
     if 'loggedin' in session:
@@ -137,8 +138,37 @@ def user_home():
         cursor = getCursor()
         cursor.execute('SELECT * FROM messages',)
         allMessages = cursor.fetchall()
-
+        # if request.method=="POST":
+        #     if request.method.get('createPost'): 
+        #         print("hi")
+        #         return render_template("create_post.html", username=session['username'], user_role=session['role'])
         return render_template('home.html', username=session['username'], user_role=session['role'],  allmessages= allMessages)
+    
+    # User is not logged in - redirect to login page
+    return redirect(url_for('login'))
+
+@app.route('/create_post',methods=['GET','POST'])
+def create_post():
+    print("increatepost")
+    if 'loggedin' in session:
+        print("increatepost session")
+        print(datetime.datetime.now())
+        print(request.method)
+        if request.method == "POST":
+            print("increatepost post method")
+            userId = session['id']
+            title = request.form.get('title')
+            content = request.form.get('content')
+            created_at = datetime.datetime.now()
+            print(userId)
+            print(title)
+            print(content)
+            print(created_at)
+            cursor = getCursor()
+            cursor.execute("INSERT INTO messages (user_id, title, content, created_at) VALUES(%s,%s,%s,%s);",(userId, title, content, created_at,))
+            return redirect(url_for('user_home'))
+        return render_template('create_post.html',username=session['username'], user_role=session['role'])
+    
     
     # User is not logged in - redirect to login page
     return redirect(url_for('login'))
