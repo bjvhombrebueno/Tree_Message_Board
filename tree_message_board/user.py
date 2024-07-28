@@ -221,11 +221,12 @@ def delete_post():
     if 'loggedin' in session:
         cursor = getCursor()
         cursor.execute("SELECT * FROM messages WHERE user_id = %s;", (int(session['id']),))
-        messageData = cursor.fetchone()
+        messageData = cursor.fetchall()
         cursor = getCursor()
         cursor.execute("SELECT * FROM replies WHERE user_id = %s;", (int(session['id']),))
         replyData = cursor.fetchall()
-        
+        print(messageData)
+        print(replyData)
         # if request.method =='POST':
         #     messageId = request.form.get('messageid')
         #     messageData = request.form.get('messagedata')
