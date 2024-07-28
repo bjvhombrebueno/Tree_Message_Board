@@ -72,7 +72,8 @@
       <!-- For this part there is links to make a booking and to the customer home page which passes the customer id automatically -->
        <!-- This is done to make it easier to redirect to those pages without entering the name of the customer again -->
       <div class = "col-auto">
-          <td><a href="/view_postget/?messageid={{message['message_id']}}" type="button" class="btn btn-secondary">Link</a></td>
+        <!-- <td><a href="/view_postget/?messageid={{message['message_id']}}" type="button" class="btn btn-secondary">Link</a></td>   -->
+        <td><a href="/view_post/{{message['message_id']}}" type="button" class="btn btn-secondary">Link</a></td>
       </div>
       
     </tr>
