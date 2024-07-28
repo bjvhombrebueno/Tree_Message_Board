@@ -158,36 +158,7 @@ def user_home():
     return redirect(url_for('login'))
 
 
-# @app.route("/view_post/", methods=['GET','POST'])
-# @app.route("/view_post/?messageid=<messageid>", methods=['GET','POST'])
-# def view_post(messageid = None):
-#     if 'loggedin' in session:
-        
-        
-#         if messageid:
-#             print(request.method)
-#             if request.method == 'GET':
-#                 print(request.method)
-#                 cursor = getCursor()
-#                 cursor.execute("SELECT * FROM messages WHERE message_id = %s;", (int(messageid),))
-#                 messageData = cursor.fetchone()                
-#                 return render_template('view_post.html',username=session['username'], user_role=session['role'], messagedata= messageData, messageid=messageid)
-#             elif request.method == 'POST':
 
-#                 print("hello")
-#                 print(messageid)
-#                 print(messageid)
-#                 # print(request.method)
-#                 # userId = session['id']
-#                 # content = request.form.get('content')
-#                 # created_at = datetime.datetime.now()                
-#                 # cursor = getCursor()
-#                 # cursor.execute("INSERT INTO replies (message_id, user_id, content, created_at) VALUES(%s,%s,%s,%s);",(messageid, userId, content, created_at,))
-#                 return render_template('/view_post', messageid=messageid ,username=session['username'], user_role=session['role'])
-#                 # return render_template(url_for(view_post, messageid=messageid ),username=session['username'], user_role=session['role'])
-            
-#     # User is not logged in - redirect to login page
-#     return redirect(url_for('login'))
 
 @app.route("/view_post", methods=['GET','POST'])
 @app.route("/view_post/<int:messageid>", methods=['GET','POST'])
@@ -208,7 +179,7 @@ def view_post(messageid):
             content = request.form.get('content')
             created_at = datetime.datetime.now()                
             cursor = getCursor()
-            cursor.execute("INSERT INTO replies (message_id, user_id, content, created_at) VALUES(%s,%s,%s,%s);",(messageid, userId, content, created_at,))
+            cursor.execute("INSERT INTO replies (message_id, user_id, content, created_at) VALUES(%s,%s,%s,%s);",(messageId, userId, content, created_at,))
 
             # return render_template('view_post.html',messageid=messageId, username=session['username'], user_role=session['role'], messagedata=messageData, replydata=replyData)    
             return render_template('confirmation.html')
@@ -218,16 +189,7 @@ def view_post(messageid):
     return redirect(url_for('login'))
     
 
-@app.route("/view_postget/", methods=['GET','POST'] )
-# This is just to get the correct argument to be passed to the view_post page 
-def view_postget():
-    return view_post(request.args['messageid'])
 
-@app.route("/view_postpost/", methods=['GET','POST'] )
-# This is just to get the correct argument to be passed to the view_post page 
-def view_postpost():
-    print(request.form.get['messageid'])
-    return view_post(request.args['messageid'])
 
 
 @app.route('/create_post',methods=['GET','POST'])
@@ -256,7 +218,29 @@ def create_post():
 
 @app.route('/delete_post',methods=['GET','POST'])
 def delete_post():
-    pass
+    if 'loggedin' in session:
+        cursor = getCursor()
+        cursor.execute("SELECT * FROM messages WHERE user_id = %s;", (int(session['id']),))
+        messageData = cursor.fetchone()
+        cursor = getCursor()
+        cursor.execute("SELECT * FROM replies WHERE user_id = %s;", (int(session['id']),))
+        replyData = cursor.fetchall()
+        
+        # if request.method =='POST':
+        #     messageId = request.form.get('messageid')
+        #     messageData = request.form.get('messagedata')
+        #     userId = session['id']
+        #     content = request.form.get('content')
+        #     created_at = datetime.datetime.now()                
+        #     cursor = getCursor()
+        #     cursor.execute("INSERT INTO replies (message_id, user_id, content, created_at) VALUES(%s,%s,%s,%s);",(messageId, userId, content, created_at,))
+
+        #     # return render_template('view_post.html',messageid=messageId, username=session['username'], user_role=session['role'], messagedata=messageData, replydata=replyData)    
+        #     return render_template('confirmation.html')
+        return render_template('delete_post.html', username=session['username'], user_role=session['role'], messagedata=messageData, replydata=replyData)
+
+    # User is not logged in - redirect to login page
+    return redirect(url_for('login'))
 
 @app.route('/create_reply',methods=['GET','POST'])
 def create_reply():
