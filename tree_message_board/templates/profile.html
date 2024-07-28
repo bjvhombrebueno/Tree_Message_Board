@@ -44,7 +44,7 @@
             <td>{{ account['status'] }}</td>
         </tr>
         <tr>
-            <form action="{{ url_for('profileedit') }}" method="POST">
+            <form action="/profile/edit" method="POST">
                 <div class = "col-auto">
                     <br>
                     <input class="btn btn-secondary" type="submit" name="Edit" value="Edit Profile"/>
