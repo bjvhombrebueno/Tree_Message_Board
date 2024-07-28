@@ -16,9 +16,44 @@
             <td>{{ account['email'] }}</td>
         </tr>
         <tr>
+            <td>First Name:</td>
+            <td>{{ account['first_name'] }}</td>
+        </tr>
+        <tr>
+            <td>Last Name:</td>
+            <td>{{ account['last_name'] }}</td>
+        </tr>
+        <tr>
+            <td>Birth Date:</td>
+            <td>{{ account['birth_date'] }}</td>
+        </tr>
+        <tr>
+            <td>Location:</td>
+            <td>{{ account['location'] }}</td>
+        </tr>
+        <tr>
+            <td>Profile Image:</td>
+            <td>{{ account['profile_image'] }}</td>
+        </tr>
+        <tr>
             <td>Role:</td>
             <td>{{ account['role'] }}</td>
         </tr>
+        <tr>
+            <td>Status:</td>
+            <td>{{ account['status'] }}</td>
+        </tr>
+        <tr>
+            <form action="{{ url_for('profileedit') }}" method="POST">
+                <div class = "col-auto">
+                    <br>
+                    <input class="btn btn-secondary" type="submit" name="Edit" value="Edit Profile"/>
+                </div>
+            </form>
+        </tr>
+        
+        
+
     </table>
 </div>
 {% endblock %}
