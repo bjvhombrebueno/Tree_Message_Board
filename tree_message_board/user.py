@@ -172,7 +172,7 @@ def view_post(messageid):
         cursor.execute("SELECT * FROM replies WHERE message_id = %s;", (int(messageid),))
         replyData = cursor.fetchall()
         
-        if request.method =='POST':
+        if request.method =='POST'and request.form.get('reply'):
             messageId = request.form.get('messageid')
             messageData = request.form.get('messagedata')
             userId = session['id']
@@ -180,15 +180,47 @@ def view_post(messageid):
             created_at = datetime.datetime.now()                
             cursor = getCursor()
             cursor.execute("INSERT INTO replies (message_id, user_id, content, created_at) VALUES(%s,%s,%s,%s);",(messageId, userId, content, created_at,))
-
+            usrmsg = "REPLY ADDED"
             # return render_template('view_post.html',messageid=messageId, username=session['username'], user_role=session['role'], messagedata=messageData, replydata=replyData)    
-            return render_template('confirmation.html')
+            return render_template('confirmation.html', usrmsg = usrmsg)
+        if request.method =='POST'and request.form.get('delete'):
+            
+            cursor = getCursor()
+            cursor.execute("DELETE FROM replies WHERE message_id = %s;",(int(messageid),))            
+            cursor = getCursor()
+            cursor.execute("DELETE FROM messages WHERE message_id = %s;",(int(messageid),))
+            
+            usrmsg = "POST DELETED"
+            # return render_template('view_post.html',messageid=messageId, username=session['username'], user_role=session['role'], messagedata=messageData, replydata=replyData)    
+            return render_template('confirmation.html', usrmsg = usrmsg)
+        
         return render_template('view_post.html',messageid=messageid, username=session['username'], user_role=session['role'], messagedata=messageData, replydata=replyData)
 
     # User is not logged in - redirect to login page
     return redirect(url_for('login'))
     
 
+@app.route("/view_reply", methods=['GET','POST'])
+@app.route("/view_reply/<int:replyid>", methods=['GET','POST'])
+def view_reply(replyid):
+    print(replyid)
+    if 'loggedin' in session:
+        
+        cursor = getCursor()
+        cursor.execute("SELECT * FROM replies WHERE reply_id = %s;", (int(replyid),))
+        replyData = cursor.fetchall()
+        if request.method =='POST':
+                         
+            cursor = getCursor()
+            cursor.execute("DELETE FROM replies WHERE reply_id = %s;",(int(replyid),))
+            usrmsg = "REPLY DELETED"
+            # return render_template('view_post.html',messageid=messageId, username=session['username'], user_role=session['role'], messagedata=messageData, replydata=replyData)    
+            return render_template('confirmation.html', usrmsg = usrmsg)
+        
+        return render_template('view_reply.html', replyid=replyid, username=session['username'], user_role=session['role'], replydata=replyData)
+
+    # User is not logged in - redirect to login page
+    return redirect(url_for('login'))
 
 
 
