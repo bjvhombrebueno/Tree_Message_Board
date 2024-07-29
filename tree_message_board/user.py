@@ -5,6 +5,7 @@ from flask import url_for
 from flask import session
 import re
 import datetime
+import os
 import mysql.connector
 from flask_hashing import Hashing
 from tree_message_board import app
@@ -27,6 +28,7 @@ DEFAULT_STATUS = 'active'
 
 # Default user profile picture assigned to new users upon registration.
 DEFAULT_PROFILE_PICTURE = 'link me'
+
 
 
 db_connection = None
@@ -311,6 +313,8 @@ def create_reply():
 # http://localhost:5000/profile - this will be the profile page, only accessible for loggedin users
 @app.route('/profile',methods=['GET','POST'])
 def profile(account=None):
+    profileImage = os.path.join(app.config["UPLOAD_FOLDER"], "Profile.png")
+
     # Check if user is loggedin
     if 'loggedin' in session:
         
@@ -319,12 +323,13 @@ def profile(account=None):
         cursor.execute('SELECT user_id, username, email,first_name, last_name, birth_date, location, profile_image, role, status FROM users WHERE user_id = %s', (session['id'],))
         account = cursor.fetchone()
         
-        if request.method=="POST":
-            
+        if request.method=="POST" and request.form.get("editprofile"):
             return render_template('edit_profile.html',account = account, username=session['username'], user_role=session['role'])
+        elif request.method=="POST" and request.form.get("editpassword"):
+            return render_template('edit_password.html',account = account, username=session['username'], user_role=session['role'])
 
         # Show the profile page with account info
-        return render_template('profile.html', account=account, username=session['username'], user_role=session['role'])
+        return render_template('profile.html', profileimage =profileImage, account=account, username=session['username'], user_role=session['role'])
     
     # User is not logged in - redirect to login page
     return redirect(url_for('login'))
@@ -347,17 +352,17 @@ def profileedit(account=None):
             lastname = request.form.get('lastname')
             birthdate = request.form.get('birthdate')
             location = request.form.get('location')
-            profileimage = request.form.get('profileimage')
+            
             print(email)
             print(firstname)
             print(lastname)
             print(birthdate)
             print(location)
-            print(profileimage)
+            
 
             cursor = getCursor()
              # cursor.execute('SELECT user_id, username, email,first_name, last_name, birth_date, location, profile_image, role, status FROM users WHERE user_id = %s', (session['id'],))
-            cursor.execute("UPDATE users SET email = %s, first_name = %s, last_name = %s, birth_date = %s, location = %s, profile_image = %s WHERE user_id = %s;", (email, firstname,lastname, birthdate, location, profileimage,session['id'],))
+            cursor.execute("UPDATE users SET email = %s, first_name = %s, last_name = %s, birth_date = %s, location = %s WHERE user_id = %s;", (email, firstname, lastname, birthdate, location, session['id'],))
             # Show the profile page with account info
             usrmsg="Profile updated"
             return render_template('confirmation.html',usrmsg = usrmsg, username=session['username'], user_role=session['role'])
@@ -365,6 +370,39 @@ def profileedit(account=None):
     
     # User is not logged in - redirect to login page
     return redirect(url_for('login'))
+
+@app.route('/password',methods=['GET','POST'])
+def password(account=None):
+    
+
+    # Check if user is loggedin
+    if 'loggedin' in session:
+        
+        # We need all the account info for the user so we can display it on the profile page
+        # cursor = getCursor()
+        # cursor.execute('SELECT username, password_hash FROM users WHERE user_id = %s', (session['id'],))
+        # account = cursor.fetchone()
+        
+        if request.method=="POST":
+            oldPassword = request.form.get('oldpassword')
+            oldPassword_hash = hashing.hash_value(oldPassword, PASSWORD_SALT)
+            newPassword = request.form.get('newpassword')
+            newPassword_hash = hashing.hash_value(newPassword, PASSWORD_SALT)
+            if oldPassword_hash == newPassword_hash:
+                usrmsg="Old and new passwords cannot be the same, please change"
+            else:
+                cursor = getCursor()
+                cursor.execute('UPDATE users SET password_hash = %s WHERE user_id = %s;', (newPassword_hash, session['id'], ))
+                usrmsg="Password updated"
+
+            return render_template('confirmation.html',usrmsg=usrmsg, username=session['username'], user_role=session['role'])
+
+        # Show the profile page with account info
+        return render_template('edit_password.html', account=account, username=session['username'], user_role=session['role'])
+    
+    # User is not logged in - redirect to login page
+    return redirect(url_for('login'))
+
 
 # http://localhost:5000/logout - this will be the logout page
 @app.route('/logout')

@@ -35,4 +35,50 @@
       <button class="button">Reports</button>
       <button class="button">Manage Users</button>
     </div>
+    <form action="/staff_home.html" method="POST">
+      
+      <div class="container text-center">
+        <div class = "row justify-content-center">
+          <div class = "col-auto">
+            <br>
+            <a href={{url_for('create_post')}} type="button" class="btn btn-secondary">Create Post</a>
+        </div>
+            <div class = "col-auto">
+                <br>
+                <a href={{url_for('delete_post')}} type="button" class="btn btn-secondary">Delete Post</a>
+        </div>
+            </div>
+            <div class = "col-auto">
+                <br>
+                <a href="/user/create_post.html" type="button" class="btn btn-secondary">Create Post</a>
+        </div>
+            </div>
+        </div>
+    </div>
+  </form>
+    
+  {% for message in allmessages %}
+      
+    <tr> 
+      <div class = "col-auto">
+          <td>{{message['message_id']}}</td>
+      </div>
+      <div class = "col-auto">
+          <td>{{message['user_id']}}</td>
+      </div>
+      <div class = "col-auto">
+          <td>{{message['title']}}</td>
+      </div>
+      <div class = "col-auto">
+          <td>{{message['content']}}</td>
+      </div>
+      <!-- For this part there is links to make a booking and to the customer home page which passes the customer id automatically -->
+       <!-- This is done to make it easier to redirect to those pages without entering the name of the customer again -->
+      <div class = "col-auto">
+        <!-- <td><a href="/view_postget/?messageid={{message['message_id']}}" type="button" class="btn btn-secondary">Link</a></td>   -->
+        <td><a href="/view_post/{{message['message_id']}}" type="button" class="btn btn-secondary">Link</a></td>
+      </div>
+      
+    </tr>
+    {% endfor %}
 {% endblock %}

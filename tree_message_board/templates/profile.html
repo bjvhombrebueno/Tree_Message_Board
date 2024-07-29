@@ -7,6 +7,7 @@
 <div>
     <p>Your account details are below:</p>
     <table>
+        <img src="{{ profileimage }}" alt="Mike" height="240px" width="300px"></center>
         <tr>
             <td>Username:</td>
             <td>{{ account['username'] }}</td>
@@ -47,7 +48,11 @@
             <form action="/profile" method="POST">
                 <div class = "col-auto">
                     <br>
-                    <input class="btn btn-secondary" type="submit" name="Edit" value="Edit Profile"/>
+                    <input class="btn btn-secondary" type="submit" name="editprofile" value="Edit Profile"/>
+                </div>
+                <div class = "col-auto">
+                    <br>
+                    <input class="btn btn-secondary" type="submit" name="editpassword" value="Edit Password"/>
                 </div>
             </form>
         </tr>

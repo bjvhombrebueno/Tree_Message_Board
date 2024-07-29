@@ -7,11 +7,7 @@
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
 	</head>
 	<body>
-		{{account}}
-		{{account}}
-		{{account}}
-
-
+		
 		<!-- <div class="register">
 			<h1>Register</h1>
 			<div class="links">
@@ -45,13 +41,13 @@
 								Please enter valid username
 							</div>  
 						</div>
-						<div class="col-auto">
+						<!-- <div class="col-auto">
 							<label for="password" class="form-label">Password: </label><br>
 							<input type="text" class="form-control" name="password" {% if account %} value="**********" {% endif %} readonly />
 							<div class="invalid-feedback">
 								Please enter valid password
 							</div>  
-						</div>
+						</div> -->
 						<div class="col-auto">
 							<label for="email" class="form-label">Email Address: </label><br>
 							<input name="email" type="email" id="typeEmail" class="form-control" {% if account %} value="{{account['email']}}" {% endif %}  pattern="^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required/>
@@ -87,17 +83,18 @@
 								Please enter valid location name
 							</div>  
 						</div>
-						<div class="col-auto">
+						<!-- <div class="col-auto">
 							<label for="profileimage" class="form-label">Profile image: </label>
 							<input name="profileimage" class="form-control"{% if account %} value="{{account['profile_image']}}" {% endif %} type="text" required/>
 							<div class="invalid-feedback">
 								Please enter valid profile image location
 							</div>  
-						</div>
+						</div> -->
 						<div class = "col-auto">
 							<br>
 							<input class="btn btn-secondary" type="submit" name="Update profile"/>
 						</div>
+						
 					</div>
 					
 				</div>
