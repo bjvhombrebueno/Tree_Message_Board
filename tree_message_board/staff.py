@@ -59,12 +59,47 @@ def getCursor():
 def staff_home():
     # Check if user is loggedin
     if 'loggedin' in session:
-        # User is loggedin show them the home page
+        
+        if session['role'] == 'staff':
+            # User is loggedin show them the home page and role is staff
+            cursor = getCursor()
+            cursor.execute('SELECT * FROM messages',)
+            allMessages = cursor.fetchall()
+            return render_template('staff_home.html', username=session['username'], user_role=session['role'])
+        else:
+            return render_template('Error.html', user_role=session['role'])
+       
+    # User is not loggedin redirect to login page
+    return redirect(url_for('login'))
 
-        cursor = getCursor()
-        cursor.execute('SELECT * FROM messages',)
-        allMessages = cursor.fetchall()
-        return render_template('staff_home.html', username=session['username'], user_role=session['role'], allmessages=allMessages)
+@app.route('/search', methods=['GET', 'POST'])
+def search_users():
+    # Check if user is loggedin
+    if 'loggedin' in session:
+        if session['role'] == 'staff':
+            # User is loggedin show them the home page and role is staff
+            if request.method == "GET":
+                return render_template("user_search.html")
+            else:
+                searchString = request.form.get('searchstring')
+                #SQL to return all of the matches of the search string
+                sql= "SELECT * FROM users WHERE username LIKE '%"+ searchString + "%' OR first_name LIKE '%"+ searchString + "%' OR last_name LIKE '%"+ searchString + "%' ORDER BY user_id;"
+                print(sql)
+                connection = getCursor()
+                connection.execute(sql)
+                searchResults = connection.fetchall()
+                print(request.form)
+                print(searchResults)
+                return render_template("user_search.html",searchresults=searchResults)
+                # usrmsg = "search"
+                # return render_template('confirmation.html',usrmsg=usrmsg, username=session['username'], user_role=session['role'])
+        
+        
+        
+        else:
+            return render_template('Error.html', user_role=session['role'])
+
+        
     
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))

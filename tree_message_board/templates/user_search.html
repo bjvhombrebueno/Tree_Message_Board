@@ -1,0 +1,118 @@
+{% extends 'layout.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h2>Staff Landing Page</h2>
+<p>Welcome back, {{ username }}!</p>
+
+<style>
+    .btn-group .button {
+      background-color: #0a04aa; /* Green */
+      border: 1px solid blue;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      cursor: pointer;
+      width: 150px;
+      display: block;
+    }
+    
+    .btn-group .button:not(:last-child) {
+      border-bottom: none; /* Prevent double borders */
+    }
+    
+    .btn-group .button:hover {
+      background-color: #3e698e;
+    }
+    </style>
+    
+    <div class="btn-group">
+      <button class="button">About</button>
+      <button class="button">Contact Us</button>
+      <button class="button">Reports</button>
+      <button class="button">Manage Users</button>
+    </div>
+    
+  <form action="/search" method="POST" class="row needs-validation" novalidate>
+    
+    <div class="container text-center">
+        <div class = "row justify-content-center">
+            <div class="col-auto">
+                <input type="text" class="form-control" name="searchstring" required/>
+                <div class="invalid-feedback">
+                    Please input a search value
+                </div>
+            </div>
+            <div class = "col-auto">
+                <input class="btn btn-secondary" type="submit"/>
+            </div>
+        </div>
+    </div>
+    
+</form>
+    
+{% if request.method=="POST" %}
+  {% if searchresults %}
+    <div class="container text-center">
+        <div class = "row justify-content-center">
+            <table class="table table-hover table-sm">
+                <thead>
+                    <tr>
+                        <div class = "col-auto">
+                            <th>Family Name</th>
+                        </div>
+                        <div class = "col-auto">
+                            <th>First Name</th>
+                        </div>
+                        <div class = "col-auto">
+                            <th>Email Address</th>
+                        </div>
+                        <div class = "col-auto">
+                            <th>Phone Number</th>
+                        </div>
+                        <div class = "col-auto">
+                            <th>Make a booking</th>
+                        </div>
+                        <div class = "col-auto">
+                            <th>Go to Customer Home Page</th>
+                        </div>
+                    </tr>
+                </thead>
+                {% for user in searchresults %}
+                    <tr> 
+                        <div class = "col-auto">
+                            <td>{{user['user_id']}}</td>
+                        </div>
+                        <div class = "col-auto">
+                          <td>{{user['username']}}</td>
+                        </div>
+                        <div class = "col-auto">
+                          <td>{{user['email']}}</td>
+                        </div>
+                        <div class = "col-auto">
+                          <td>{{user['first_name']}}</td>
+                        </div>
+                        <div class = "col-auto">
+                          <td>{{user['last_name']}}</td>
+                        </div>
+                        <div class = "col-auto">
+                          <td>{{user['birth_date']}}</td>
+                        </div>
+                                         
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+  {% else %}
+    <br>
+    <h5 class="text-center">No search results found</h5>
+  {% endif %}
+{% else %}
+<!-- Do nothing -->
+{% endif %}
+
+{% endblock %}
