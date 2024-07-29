@@ -310,9 +310,10 @@ def create_reply():
 
 # http://localhost:5000/profile - this will be the profile page, only accessible for loggedin users
 @app.route('/profile',methods=['GET','POST'])
-def profile():
+def profile(account=None):
     # Check if user is loggedin
     if 'loggedin' in session:
+        
         # We need all the account info for the user so we can display it on the profile page
         cursor = getCursor()
         cursor.execute('SELECT user_id, username, email,first_name, last_name, birth_date, location, profile_image, role, status FROM users WHERE user_id = %s', (session['id'],))
@@ -320,7 +321,7 @@ def profile():
         
         if request.method=="POST":
             
-            return render_template('edit_profile.html', username=session['username'], user_role=session['role'])
+            return render_template('edit_profile.html',account = account, username=session['username'], user_role=session['role'])
 
         # Show the profile page with account info
         return render_template('profile.html', account=account, username=session['username'], user_role=session['role'])
@@ -330,29 +331,37 @@ def profile():
 
 # http://localhost:5000/profile - this will be the profile page, only accessible for loggedin users
 @app.route('/profile/edit',methods=['GET','POST'])
-def profileedit():
+def profileedit(account=None):
     # Check if user is loggedin
     if 'loggedin' in session:
         # We need all the account info for the user so we can display it on the profile page
-        cursor = getCursor()
-        cursor.execute('SELECT user_id, username, email,first_name, last_name, birth_date, location, profile_image, role, status FROM users WHERE user_id = %s', (session['id'],))
-        account = cursor.fetchone()
+        # cursor = getCursor()
+        # cursor.execute('SELECT user_id, username, email,first_name, last_name, birth_date, location, profile_image, role, status FROM users WHERE user_id = %s', (session['id'],))
+        # account = cursor.fetchone()
         print(account)
         print(session['id'])
         
-                
-        email = request.form.get('email')
-        firstname = request.form.get('firstname')
-        lastname = request.form.get('lastname')
-        birthdate = request.form.get('birthdate')
-        location = request.form.get('location')
-        profileimage = request.form.get('profileimage')
-        print(email)
-        # cursor = getCursor()
+        if request.method=="POST":        
+            email = request.form.get('email')
+            firstname = request.form.get('firstname')
+            lastname = request.form.get('lastname')
+            birthdate = request.form.get('birthdate')
+            location = request.form.get('location')
+            profileimage = request.form.get('profileimage')
+            print(email)
+            print(firstname)
+            print(lastname)
+            print(birthdate)
+            print(location)
+            print(profileimage)
+
+            cursor = getCursor()
              # cursor.execute('SELECT user_id, username, email,first_name, last_name, birth_date, location, profile_image, role, status FROM users WHERE user_id = %s', (session['id'],))
-        # cursor.execute("UPDATE users SET email = %s, first_name = %s, last_name = %s, birth_date = %s, location = %s, profile_image = %s WHERE user_id = %s;", (email, firstname,lastname, birthdate, location, profileimage,session['id'],))
-        # Show the profile page with account info
-        return render_template('edit_profile.html',account=account, username=session['username'], user_role=session['role'])
+            cursor.execute("UPDATE users SET email = %s, first_name = %s, last_name = %s, birth_date = %s, location = %s, profile_image = %s WHERE user_id = %s;", (email, firstname,lastname, birthdate, location, profileimage,session['id'],))
+            # Show the profile page with account info
+            usrmsg="Profile updated"
+            return render_template('confirmation.html',usrmsg = usrmsg, username=session['username'], user_role=session['role'])
+        return render_template('edit_profile.html', username=session['username'], user_role=session['role'])
     
     # User is not logged in - redirect to login page
     return redirect(url_for('login'))
