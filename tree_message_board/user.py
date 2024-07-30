@@ -310,40 +310,73 @@ def create_reply():
     # User is not logged in - redirect to login page
     return redirect(url_for('login'))
 
+# # http://localhost:5000/profile - this will be the profile page, only accessible for loggedin users
+# @app.route('/profile',methods=['GET','POST'])
+# def profile(account=None):
+#     profileImage = os.path.join(app.config["UPLOAD_FOLDER"], "Profile.png")
+
+#     # Check if user is loggedin
+#     if 'loggedin' in session:
+        
+#         # We need all the account info for the user so we can display it on the profile page
+#         cursor = getCursor()
+#         cursor.execute('SELECT user_id, username, email,first_name, last_name, birth_date, location, profile_image, role, status FROM users WHERE user_id = %s', (session['id'],))
+#         account = cursor.fetchone()
+        
+#         if request.method=="POST" and request.form.get("editprofile"):
+#             return render_template('edit_profile.html',account = account, username=session['username'], user_role=session['role'])
+#         elif request.method=="POST" and request.form.get("editpassword"):
+#             return render_template('edit_password.html',account = account, username=session['username'], user_role=session['role'])
+
+#         # Show the profile page with account info
+#         return render_template('profile.html', profileimage =profileImage, account=account, username=session['username'], user_role=session['role'])
+    
+#     # User is not logged in - redirect to login page
+#     return redirect(url_for('login'))
+
 # http://localhost:5000/profile - this will be the profile page, only accessible for loggedin users
 @app.route('/profile',methods=['GET','POST'])
-def profile(account=None):
+@app.route('/profile/<int:userid>',methods=['GET','POST'])
+def profile(userid=None):
     profileImage = os.path.join(app.config["UPLOAD_FOLDER"], "Profile.png")
 
     # Check if user is loggedin
     if 'loggedin' in session:
+        if userid == None:
+            userid = session['id']
         
         # We need all the account info for the user so we can display it on the profile page
         cursor = getCursor()
-        cursor.execute('SELECT user_id, username, email,first_name, last_name, birth_date, location, profile_image, role, status FROM users WHERE user_id = %s', (session['id'],))
+        cursor.execute('SELECT * FROM users WHERE user_id = %s', (userid,))
         account = cursor.fetchone()
         
+
         if request.method=="POST" and request.form.get("editprofile"):
             return render_template('edit_profile.html',account = account, username=session['username'], user_role=session['role'])
-        elif request.method=="POST" and request.form.get("editpassword"):
-            return render_template('edit_password.html',account = account, username=session['username'], user_role=session['role'])
-
+        elif request.method=="POST" and request.form.get("changepassword"):
+            return render_template('change_password.html',account = account, username=session['username'], user_role=session['role'])
+        elif request.method=="POST" and request.form.get("changeaccess"):
+            if session['role'] == 'admin':
+                return render_template('change_access.html',account = account, username=session['username'], user_role=session['role'])
+            else:
+                return render_template('error.html',account = account, username=session['username'], user_role=session['role'])
         # Show the profile page with account info
         return render_template('profile.html', profileimage =profileImage, account=account, username=session['username'], user_role=session['role'])
     
     # User is not logged in - redirect to login page
     return redirect(url_for('login'))
 
+
 # http://localhost:5000/profile - this will be the profile page, only accessible for loggedin users
 @app.route('/profile/edit',methods=['GET','POST'])
-def profileedit(account=None):
+def profileedit():
     # Check if user is loggedin
     if 'loggedin' in session:
         # We need all the account info for the user so we can display it on the profile page
         # cursor = getCursor()
         # cursor.execute('SELECT user_id, username, email,first_name, last_name, birth_date, location, profile_image, role, status FROM users WHERE user_id = %s', (session['id'],))
         # account = cursor.fetchone()
-        print(account)
+        
         print(session['id'])
         
         if request.method=="POST":        
@@ -372,23 +405,26 @@ def profileedit(account=None):
     return redirect(url_for('login'))
 
 @app.route('/password',methods=['GET','POST'])
-def password(account=None):
+def password():
     
 
     # Check if user is loggedin
     if 'loggedin' in session:
         
         # We need all the account info for the user so we can display it on the profile page
-        # cursor = getCursor()
-        # cursor.execute('SELECT username, password_hash FROM users WHERE user_id = %s', (session['id'],))
-        # account = cursor.fetchone()
-        
+        cursor = getCursor()
+        cursor.execute('SELECT password_hash FROM users WHERE user_id = %s', (session['id'],))
+        account = cursor.fetchone()
+        dbPassword_hash = account['password_hash']
+        print(dbPassword_hash)
         if request.method=="POST":
             oldPassword = request.form.get('oldpassword')
             oldPassword_hash = hashing.hash_value(oldPassword, PASSWORD_SALT)
             newPassword = request.form.get('newpassword')
             newPassword_hash = hashing.hash_value(newPassword, PASSWORD_SALT)
-            if oldPassword_hash == newPassword_hash:
+            if dbPassword_hash != oldPassword_hash:
+                usrmsg="Old password does not match saved password, please change" 
+            elif dbPassword_hash == oldPassword_hash and oldPassword_hash == newPassword_hash:
                 usrmsg="Old and new passwords cannot be the same, please change"
             else:
                 cursor = getCursor()

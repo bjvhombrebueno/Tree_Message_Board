@@ -3,13 +3,13 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<h2>Staff Landing Page</h2>
+<h2>Admin Landing Page</h2>
 <p>Welcome back, {{ username }}!</p>
 
 <style>
     .btn-group .button {
-      background-color: #0a04aa; /* Green */
-      border: 1px solid blue;
+      background-color: #aa6d04; /* Green */
+      border: 1px solid rgb(232, 214, 49);
       color: white;
       padding: 15px 32px;
       text-align: center;
@@ -30,10 +30,10 @@
     </style>
     
     <div class="btn-group">
-      <button class="button">About</button>
-      <button class="button">Contact Us</button>
       <button class="button">Reports</button>
+      <button class="button">Manage Records</button>
       <button class="button">Manage Users</button>
+      <button class="button">Manage News</button>
     </div>
     
   <form action="/search" method="POST" class="row needs-validation" novalidate>
@@ -99,8 +99,8 @@
                           <td>{{user['last_name']}}</td>
                         </div>
                         <div class = "col-auto">
-                          <td>{{user['birth_date']}}</td>
-                        </div>
+                          <td><a href="/profile/{{user['user_id']}}" type="button" class="btn btn-secondary">View Member's Profile</a></td>
+                      </div>
                                          
                     </tr>
                 {% endfor %}
