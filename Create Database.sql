@@ -3,7 +3,7 @@
 -- -----------------------------------------------------
 -- DROP SCHEMA IF EXISTS `tmb`;
 -- CREATE SCHEMA `tmb` DEFAULT CHARACTER SET utf8 ;
-USE `tmb`;
+-- USE `tmb`;
 
 -- -----------------------------------------------------
 -- Table tmb.users
