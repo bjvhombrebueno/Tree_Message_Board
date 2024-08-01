@@ -21,13 +21,13 @@ app.secret_key = 'COMP639$3cr3+K3y'
 PASSWORD_SALT = 'COMP639$@7+V@7u3'
 
 # Default role assigned to new users upon registration.
-DEFAULT_USER_ROLE = 'user'
+DEFAULT_USER_ROLE = 'member'
 
 # Default status assigned to new users upon registration.
 DEFAULT_STATUS = 'active'
 
 # Default user profile picture assigned to new users upon registration.
-DEFAULT_PROFILE_PICTURE = 'link me'
+DEFAULT_PROFILE_PICTURE = 'profile.png'
 
 
 
@@ -80,10 +80,10 @@ def login():
                 session['role'] = account['role']
                
                 # Redirect to home page
-                if session['role'] == 'user':
-                    return redirect(url_for('user_home'))
-                elif session['role'] == 'staff':
-                    return redirect(url_for('staff_home'))
+                if session['role'] == 'member':
+                    return redirect(url_for('member_home'))
+                elif session['role'] == 'moderator':
+                    return redirect(url_for('moderator_home'))
                 else:
                     return redirect(url_for('admin_home'))
             else:
@@ -144,8 +144,8 @@ def register():
     return render_template('register.html', msg=msg)
 
 # http://localhost:5000/home - this will be the home page, only accessible for loggedin users
-@app.route('/user/home', methods=['GET','POST'])
-def user_home():
+@app.route('/member/home', methods=['GET','POST'])
+def member_home():
     # Check if user is loggedin
     if 'loggedin' in session:
         # User is loggedin show them the home page
@@ -184,7 +184,7 @@ def view_post(messageid):
             cursor.execute("INSERT INTO replies (message_id, user_id, content, created_at) VALUES(%s,%s,%s,%s);",(messageId, userId, content, created_at,))
             usrmsg = "REPLY ADDED"
             # return render_template('view_post.html',messageid=messageId, username=session['username'], user_role=session['role'], messagedata=messageData, replydata=replyData)    
-            return render_template('confirmation.html', usrmsg = usrmsg)
+            return render_template('confirmation.html', usrmsg = usrmsg,username=session['username'], user_role=session['role'])
         if request.method =='POST'and request.form.get('delete'):
             
             cursor = getCursor()
@@ -194,7 +194,7 @@ def view_post(messageid):
             
             usrmsg = "POST DELETED"
             # return render_template('view_post.html',messageid=messageId, username=session['username'], user_role=session['role'], messagedata=messageData, replydata=replyData)    
-            return render_template('confirmation.html', usrmsg = usrmsg)
+            return render_template('confirmation.html', usrmsg = usrmsg,username=session['username'], user_role=session['role'])
         
         return render_template('view_post.html',messageid=messageid, username=session['username'], user_role=session['role'], messagedata=messageData, replydata=replyData)
 
@@ -217,7 +217,7 @@ def view_reply(replyid):
             cursor.execute("DELETE FROM replies WHERE reply_id = %s;",(int(replyid),))
             usrmsg = "REPLY DELETED"
             # return render_template('view_post.html',messageid=messageId, username=session['username'], user_role=session['role'], messagedata=messageData, replydata=replyData)    
-            return render_template('confirmation.html', usrmsg = usrmsg)
+            return render_template('confirmation.html', usrmsg = usrmsg,username=session['username'], user_role=session['role'])
         
         return render_template('view_reply.html', replyid=replyid, username=session['username'], user_role=session['role'], replydata=replyData)
 
@@ -245,7 +245,7 @@ def create_post():
             print(created_at)
             cursor = getCursor()
             cursor.execute("INSERT INTO messages (user_id, title, content, created_at) VALUES(%s,%s,%s,%s);",(userId, title, content, created_at,))
-            return redirect(url_for('user_home'))
+            return redirect(url_for('member_home'))
         return render_template('create_post.html',username=session['username'], user_role=session['role'])
     # User is not logged in - redirect to login page
     return redirect(url_for('login'))
@@ -338,23 +338,49 @@ def create_reply():
 @app.route('/profile',methods=['GET','POST'])
 @app.route('/profile/<int:userid>',methods=['GET','POST'])
 def profile(userid=None):
-    profileImage = os.path.join(app.config["UPLOAD_FOLDER"], "Profile.png")
+    print(userid)
+
+    
+
 
     # Check if user is loggedin
     if 'loggedin' in session:
+
+    #     if userid== None:
+    #     profileImage = os.path.join(app.config["UPLOAD_FOLDER"], "Profile.png")
+    # else:
+        
+
+        
         if userid == None:
             userid = session['id']
-        
+
+            # cursor = getCursor()
+            # cursor.execute('SELECT profile_image FROM users WHERE user_id = %s', (userid,))
+            # image = cursor.fetchone()
+            # print(userid)
+            # print(image)
+            # profileImage = os.path.join(app.config["UPLOAD_FOLDER"], image['profile_image'])
         # We need all the account info for the user so we can display it on the profile page
         cursor = getCursor()
         cursor.execute('SELECT * FROM users WHERE user_id = %s', (userid,))
         account = cursor.fetchone()
-        
+        image = account['profile_image']
+           
+        profileImage = os.path.join(app.config["UPLOAD_FOLDER"], image)
 
         if request.method=="POST" and request.form.get("editprofile"):
             return render_template('edit_profile.html',account = account, username=session['username'], user_role=session['role'])
         elif request.method=="POST" and request.form.get("changepassword"):
             return render_template('change_password.html',account = account, username=session['username'], user_role=session['role'])
+        elif request.method=="POST" and request.form.get("changeimage"):
+            return render_template('change_image.html',account = account, username=session['username'], user_role=session['role'])
+        elif request.method=="POST" and request.form.get("removeimage"):
+            cursor = getCursor()
+            cursor.execute('UPDATE users SET profile_image = %s WHERE user_id = %s;', (DEFAULT_PROFILE_PICTURE, session['id'],))
+            usrmsg="Image updated"
+            return render_template('confirmation.html',usrmsg=usrmsg, username=session['username'], user_role=session['role'])
+            
         elif request.method=="POST" and request.form.get("changeaccess"):
             if session['role'] == 'admin':
                 return redirect( url_for('change_access',userid=userid ))
@@ -436,6 +462,35 @@ def password():
 
         # Show the profile page with account info
         return render_template('edit_password.html', account=account, username=session['username'], user_role=session['role'])
+    
+    # User is not logged in - redirect to login page
+    return redirect(url_for('login'))
+
+
+@app.route('/image',methods=['GET','POST'])
+def image():
+    profileImage = os.path.join(app.config["UPLOAD_FOLDER"], "Profile.png")
+
+    # Check if user is loggedin
+    if 'loggedin' in session:
+        
+        
+
+        # # We need all the account info for the user so we can display it on the profile page
+        if request.method=="POST":
+            newImage = request.form.get('image')
+            # newProfileImage = os.path.join(app.config["UPLOAD_FOLDER"], str(newImage))
+            cursor = getCursor()
+            cursor.execute('UPDATE users SET profile_image = %s WHERE user_id = %s;', (newImage, session['id'],))
+            usrmsg="Image updated"
+
+            return render_template('confirmation.html',usrmsg=usrmsg, username=session['username'], user_role=session['role'])
+            
+
+        #     return render_template('confirmation.html',usrmsg=usrmsg, username=session['username'], user_role=session['role'])
+
+        # Show the profile page with account info
+        return render_template('change_image.html', username=session['username'], user_role=session['role'])
     
     # User is not logged in - redirect to login page
     return redirect(url_for('login'))

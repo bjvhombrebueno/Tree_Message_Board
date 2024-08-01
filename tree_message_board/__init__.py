@@ -10,6 +10,6 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = IMAGES_FOLDER
 
 
-from tree_message_board import user
-from tree_message_board import staff
+from tree_message_board import member
+from tree_message_board import moderator
 from tree_message_board import admin

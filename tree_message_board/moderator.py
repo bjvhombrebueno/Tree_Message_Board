@@ -55,17 +55,17 @@ def getCursor():
 
 
 
-@app.route('/staff/home')
-def staff_home():
+@app.route('/moderator/home')
+def moderator_home():
     # Check if user is loggedin
     if 'loggedin' in session:
         
-        if session['role'] == 'staff':
-            # User is loggedin show them the home page and role is staff
+        if session['role'] == 'moderator':
+            # User is loggedin show them the home page and role is moderator
             cursor = getCursor()
             cursor.execute('SELECT * FROM messages',)
             allMessages = cursor.fetchall()
-            return render_template('staff_home.html', username=session['username'], user_role=session['role'])
+            return render_template('moderator_home.html',allmessages = allMessages,  username=session['username'], user_role=session['role'])
         else:
             return render_template('Error.html', user_role=session['role'])
        

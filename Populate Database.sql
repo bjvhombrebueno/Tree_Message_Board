@@ -18,10 +18,10 @@ USE loginexample;
 -- -----------------------------------------------------
 
 INSERT INTO `tmb`.`users` (`username`, `password_hash`, `email`,`first_name`,`last_name`,`birth_date`,`location`,`profile_image`, `role`,`status`) VALUES
-    ('q', 'c0f5955762c38545329a68b69ca288f78485ed0688d7cb0227085d9387f9ff63', 'user1@example.com','Aurora', 'Hayes','1990-05-03','UK','1','user','active'),
-    ('w', '1388054c565184f9ec3fd9c513cab1b462e32cfb4089a22e0de1c6a7ccec49f6', 'user2@example.com','Caleb', 'Brooks','1992-12-01','Auckland','2','user','active'),
-    ('a', '1762c21ca0f4a09591f67e584d8eb49eb35b8ecf3a6d1b19283efbe938055334', 'staff1@example.com','Serena', 'Yang','1985-07-23','Melbourne','3','staff','active'),
-    ('s', 'cdd02df61b7560b474935c00e0bfcba3905a99d2246f3060083d120df677132f', 'staff2@example.com','Declan', 'Ramirez','1989-04-05','Manila','4','staff','active'),
+    ('q', 'c0f5955762c38545329a68b69ca288f78485ed0688d7cb0227085d9387f9ff63', 'user1@example.com','Aurora', 'Hayes','1990-05-03','UK','1','member','active'),
+    ('w', '1388054c565184f9ec3fd9c513cab1b462e32cfb4089a22e0de1c6a7ccec49f6', 'user2@example.com','Caleb', 'Brooks','1992-12-01','Auckland','2','member','active'),
+    ('a', '1762c21ca0f4a09591f67e584d8eb49eb35b8ecf3a6d1b19283efbe938055334', 'staff1@example.com','Serena', 'Yang','1985-07-23','Melbourne','3','moderator','active'),
+    ('s', 'cdd02df61b7560b474935c00e0bfcba3905a99d2246f3060083d120df677132f', 'staff2@example.com','Declan', 'Ramirez','1989-04-05','Manila','4','moderator','active'),
     ('z', '8764663dced6e67a402365383654a427c5eb0cdf6f6428c0496c6d463b15cf08', 'admin1@example.com','Maya', 'Patel','2004-10-12','Spain','5','admin','active' );
 
 INSERT INTO `tmb`.`messages` (`user_id`,`title`,`content`,`created_at`) VALUES 

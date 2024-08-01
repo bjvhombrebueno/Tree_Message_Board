@@ -10,7 +10,7 @@
 		<nav class="navtop">
 			<div>
 				<h1>Login Example</h1>
-                <a href="{% if user_role == 'admin' %}{{ url_for('admin_home') }}{% elif user_role == 'staff' %}{{ url_for('staff_home') }}{% elif user_role == 'user' %}{{ url_for('user_home') }}{% endif %}"><i class="fas fa-home"></i>Home</a>
+                <a href="{% if user_role == 'admin' %}{{ url_for('admin_home') }}{% elif user_role == 'staff' %}{{ url_for('moderator_home') }}{% elif user_role == 'member' %}{{ url_for('member_home') }}{% endif %}"><i class="fas fa-home"></i>Home</a>
 				<a href="{{ url_for('profile') }}"><i class="fas fa-user-circle"></i>Profile</a>
 				<a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a>
 			</div>

@@ -1,8 +1,8 @@
 -- -----------------------------------------------------
 -- Schema Tree_Message_Board
 -- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `tmb`;
-CREATE SCHEMA `tmb` DEFAULT CHARACTER SET utf8 ;
+-- DROP SCHEMA IF EXISTS `tmb`;
+-- CREATE SCHEMA `tmb` DEFAULT CHARACTER SET utf8 ;
 USE `tmb`;
 
 -- -----------------------------------------------------
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `birth_date` DATE NOT NULL,
   `location` VARCHAR(50) NOT NULL,
   `profile_image` VARCHAR(255),
-  `role` ENUM('user', 'staff', 'admin') NOT NULL,
+  `role` ENUM('member', 'moderator', 'admin') NOT NULL,
   `status` ENUM('active', 'inactive') NOT NULL,
   PRIMARY KEY (`user_id`));
   

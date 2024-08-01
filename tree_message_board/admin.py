@@ -220,12 +220,15 @@ def change_role(userid):
             
                 if request.method == "POST":
                     
-                    role = request.form.get('role')
+                    role = request.form['role']
                     print(userid)
                     print(role)
                     cursor = getCursor()
-                
-                    cursor.execute("UPDATE users SET role = %s WHERE username = %s;", (role, int(userid),))
+                    # sql= "SELECT * FROM users WHERE username LIKE '%"+ searchString + "%' OR first_name LIKE '%"+ searchString + "%' OR last_name LIKE '%"+ searchString + "%' ORDER BY user_id;"
+                    updatestring = "UPDATE users SET role = "+ role + " WHERE (user_id =' "+ str(userid) +"');"
+                    print(updatestring)
+                    # cursor.execute("UPDATE users SET role = %s WHERE username = %s;", (role, int(userid),))
+                    cursor.execute(updatestring)
                     usrmsg = "Role changed"
                     return render_template("confirmation.html", usrmsg=usrmsg, username=session['username'], user_role=session['role'])
             
