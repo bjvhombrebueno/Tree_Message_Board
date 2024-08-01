@@ -357,7 +357,8 @@ def profile(userid=None):
             return render_template('change_password.html',account = account, username=session['username'], user_role=session['role'])
         elif request.method=="POST" and request.form.get("changeaccess"):
             if session['role'] == 'admin':
-                return render_template('change_access.html',account = account, username=session['username'], user_role=session['role'])
+                return redirect( url_for('change_access',userid=userid ))
+                # return render_template('change_access.html',account = account, username=session['username'], user_role=session['role'])
             else:
                 return render_template('error.html',account = account, username=session['username'], user_role=session['role'])
         # Show the profile page with account info
