@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   `created_at` TIMESTAMP NOT NULL,
   PRIMARY KEY (`message_id`),
   -- CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `tmb`.`users` (`user_id`));
-  FOREIGN KEY (`user_id`) REFERENCES `tmb`.`users` (`user_id`));
+  FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`));
 
 -- -----------------------------------------------------
 -- Table tmb.replies
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
    PRIMARY KEY (`reply_id`),
   --  CONSTRAINT `fk_user_id2` FOREIGN KEY (`user_id`) REFERENCES `tmb`.`users` (`user_id`),
   --  CONSTRAINT `fk_message_id` FOREIGN KEY (`message_id`) REFERENCES `tmb`.`messages` (`message_id`));
-   FOREIGN KEY (`user_id`) REFERENCES `tmb`.`users` (`user_id`),
-   FOREIGN KEY (`message_id`) REFERENCES `tmb`.`messages` (`message_id`));
+   FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+   FOREIGN KEY (`message_id`) REFERENCES `messages` (`message_id`));
    
   
