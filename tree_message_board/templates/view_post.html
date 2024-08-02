@@ -1,11 +1,47 @@
 {% extends "layout.html" %}
 
 {% block content %}
+<div class ="container justify-content-center">
+    <div class="row justify-content-center">
+        <div class="col-8"><h2 class="text-center">{{messagedata['title']}}</h2></div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-auto"><h6 class="fst-italic">{{username}}</h2></div>
+        <div class="col-auto"><h6 class="fst-italic">{{messagedata['created_at']}}</h2></div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-8"><p class="text-start">{{messagedata['content']}}</p></div>
+    </div>
 
-<h2 class="text-center">View Post</h2>
+    
+</div>
 
-{{messagedata}}
-{{replydata}}
+
+<table class="table">
+    
+    <tbody>
+     
+      {% for reply in replydata %}
+      <tr> 
+          <div class="row justify-content-center">
+            <td>
+                <div class="col-8"><p class="text-start"> </p></div>
+            </td>
+            <td>
+                <div class="col-8"><p class="text-start">{{reply['content']}}</p></div>
+            </td>
+            <td>
+                <div class="col-8"><p class="text-start">{{reply['created_at']}}</p></div>
+            </td>
+          </div>    
+              
+                            
+        </tr>
+      {% endfor %}
+      
+    </tbody>
+  </table>
+
 <br>
     <form action='/view_post/{{messageid}}' method="POST" class="row needs-validation">
     
@@ -13,9 +49,9 @@
                 <div class = "row justify-content-center">
                     <input type = "hidden" name = "messagedata" value="{{messagedata}}"/>
                     <input type = "hidden" name = "messageid" value="{{messageid}}"/>
-                    <div class="col-auto">
+                    <div class="col-6">
                         <label for="content" class="form-label">Content</label>
-                        <textarea class="form-control" id="content" name="content" rows="10" required></textarea>
+                        <textarea class="form-control" id="content" name="content" rows="10"></textarea>
                         <div class="invalid-feedback">
                             Please enter content
                         </div>  

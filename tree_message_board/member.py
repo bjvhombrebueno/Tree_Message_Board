@@ -53,6 +53,9 @@ def getCursor():
 @app.route('/')
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
+
+    image = os.path.join(app.config["UPLOAD_FOLDER"], "trees.jpg")
+    print(image)
     # Output message if something goes wrong...
     msg = ''
     
@@ -94,7 +97,7 @@ def login():
             msg = 'Incorrect username'
 
     # Show the login form with message (if any)
-    return render_template('index.html', msg=msg)
+    return render_template('login.html', msg=msg, image = image)
 
 # http://localhost:5000/register - this will be the registration page, we need to use both GET and POST requests
 @app.route('/register', methods=['GET', 'POST'])
@@ -167,12 +170,17 @@ def member_home():
 def view_post(messageid):
     print(messageid)
     if 'loggedin' in session:
+        # cursor = getCursor()
+        # cursor.execute("SELECT username FROM messages WHERE message_id = %s;", (int(messageid),))
+        # username = cursor.fetchone()
         cursor = getCursor()
         cursor.execute("SELECT * FROM messages WHERE message_id = %s;", (int(messageid),))
         messageData = cursor.fetchone()
         cursor = getCursor()
         cursor.execute("SELECT * FROM replies WHERE message_id = %s;", (int(messageid),))
         replyData = cursor.fetchall()
+        sql = "SELECT * FROM messages JOIN replies ON messages.message_id = replies.message_id;"
+
         
         if request.method =='POST'and request.form.get('reply'):
             messageId = request.form.get('messageid')
@@ -228,9 +236,9 @@ def view_reply(replyid):
 
 @app.route('/create_post',methods=['GET','POST'])
 def create_post():
-    print("increatepost")
+   
     if 'loggedin' in session:
-        print("increatepost session")
+        
         print(datetime.datetime.now())
         print(request.method)
         if request.method == "POST":
