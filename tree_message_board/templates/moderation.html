@@ -1,0 +1,66 @@
+{% extends 'layout.html' %}
+
+{% block title %}Moderation{% endblock %}
+
+{% block content %}
+
+
+<h2 class = "text-center" >Moderation</h2>
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Title</th>
+      <th scope="col">Content</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+   
+    {% for message in allmessages %}
+    <tr> 
+      
+      <div class = "col-auto">
+          <td>{{message['title']}}</td>
+      </div>
+      <div class = "col-auto">
+          <td>{{message['content']}}</td>
+      </div>
+      <!-- For this part there is links to make a booking and to the customer home page which passes the customer id automatically -->
+       <!-- This is done to make it easier to redirect to those pages without entering the name of the customer again -->
+      <div class = "col-auto">
+        
+        <td><a href="/delete_post_confirmation/{{message['message_id']}}" type="button" class="btn btn-secondary">View</a></td>
+      </div>
+      
+    </tr>
+    {% endfor %}
+    {% for reply in allreplies %}
+    <tr> 
+            
+            <div class = "col-auto">
+              <td>" "</td>
+            </div>
+            <div class = "col-auto">
+              <td>{{reply['content']}}</td>
+            </div>
+          <!-- For this part there is links to make a booking and to the customer home page which passes the customer id automatically -->
+           <!-- This is done to make it easier to redirect to those pages without entering the name of the customer again -->
+            <div class = "col-auto">
+            
+                <td><a href="/delete_reply_confirmation/{{reply['reply_id']}}" type="button" class="btn btn-secondary">View</a></td> 
+            </div>
+          
+        </tr>
+    {% endfor %}
+    
+  </tbody>
+</table>
+
+
+  
+
+
+    
+{% endblock %}

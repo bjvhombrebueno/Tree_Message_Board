@@ -137,6 +137,34 @@ def profileadmin(userid=None):
     # User is not logged in - redirect to login page
     return redirect(url_for('login'))
 
+@app.route('/moderation', methods=['GET','POST'])
+def moderation():
+    # Check if user is loggedin
+    if 'loggedin' in session:
+        if session['role'] == 'admin' or session['role'] == 'moderator' :
+            # User is loggedin show them the home page and role is staff
+            if request.method == "GET":
+                cursor = getCursor()
+                cursor.execute('SELECT * FROM messages',)
+                allMessages = cursor.fetchall()
+                cursor = getCursor()
+                cursor.execute('SELECT * FROM replies',)
+                allReplies= cursor.fetchall()
+                
+
+                return render_template("moderation.html", username=session['username'], user_role=session['role'], allmessages=allMessages, allreplies=allReplies)
+            
+        
+        
+        else:
+            return render_template('Error.html', user_role=session['role'])
+
+        
+    
+    # User is not loggedin redirect to login page
+    return redirect(url_for('login'))
+
+
 
 # @app.route('/access/<int:userid>', methods=['GET', 'POST'])
 # def change_access(userid):

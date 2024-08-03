@@ -111,19 +111,23 @@ def register():
     # Check if "username", "password" and "email" POST requests exist (user submitted form)
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form:
         # Create variables for easy access
-        username = request.form['username']
-        password = request.form['password']
-        email = request.form['email']
+        username = request.form.get('username')
+        password = request.form.get('password')
+        repassword = request.form.get('repassword')
+        email = request.form.get('email')
         firstname = request.form.get('firstname')
         lastname = request.form.get('lastname')
         birthdate = request.form.get('birthdate')
         location = request.form.get('location')
-        profileimage = request.form.get('profileimage')
+        
 
         # Check if account exists using MySQL
         cursor = getCursor()
         cursor.execute('SELECT user_id FROM users WHERE username = %s', (username,))
         account = cursor.fetchone()
+
+        #Check password for character types
+        pattern = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^A-Za-z0-9]).{8,}$"
 
         # If account exists show error and validation checks
         if account:
@@ -132,8 +136,11 @@ def register():
             msg = 'Invalid email address!'
         elif not re.match(r'[A-Za-z0-9]+', username):
             msg = 'Username must contain only characters and numbers!'
-        elif not username or not password or not email or not firstname or not lastname or not birthdate or not location or not profileimage:
+        elif not username or not password or not email or not firstname or not lastname or not birthdate or not location or not repassword:
             msg = 'Please fill out the form!'
+        elif password != repassword:
+            msg = 'Passwords do not match!'
+        
         else:
             # Account doesn't exist and the form data is valid, now insert new account into accounts table
             password_hash = hashing.hash_value(password, PASSWORD_SALT)

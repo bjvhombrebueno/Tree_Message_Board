@@ -3,34 +3,58 @@
 {% block content %}
 
 
-<h2 class="text-center">View Post</h2>
-<h5 class="text-center">Delete this post?</h5>
+
 <!-- <p class="text-center">{{messagedata['title']}}</p>
 <p class="text-center">{{messagedata['content']}}</p>
 <p class="text-center">{{messagedata['created_at']}}</p> -->
 
-<div class ="container justify-content-center">
+<form action='/delete_post_confirmation/{{messagedata['reply_id']}}' method="POST" class="row needs-validation">
+    <div class="container text-center">
+        <div class = "row justify-content-center">
+            <div class="col-auto">
+                <h2 class="text-center">Delete Post</h2>
+                <h5 class="text-center">Delete this post?</h5>
+                <p class="text-center">{{messagedata['title']}}</p>
+
+                <p class="text-center">{{messagedata['created_at']}}</p>
+                <h6 class="fst-italic">{{username}}</p>
+                <h6 class="fst-italic">{{messagedata['created_at']}}</p>
+                <br>
+                <input class="btn btn-secondary" type="submit" value="Delete"/>
+            </div>
+            
+        </div>
+        
+    </div>
+        
+       
+    
+    
+</form>
+
+
+<!-- <div class ="container justify-content-center">
     <div class="row justify-content-center">
-        <div class="col-8"><h2 class="text-center">{{messagedata['title']}}</h2></div>
+        <div class="col-auto"><h2 class="text-center">{{messagedata['title']}}</h2></div>
     </div>
     <div class="row justify-content-center">
         <div class="col-auto"><h6 class="fst-italic">{{username}}</h2></div>
         <div class="col-auto"><h6 class="fst-italic">{{messagedata['created_at']}}</h2></div>
     </div>
     <div class="row justify-content-center">
-        <div class="col-8"><p class="text-start">{{messagedata['content']}}</p></div>
+        <div class="col-auto"><p class="text-start">{{messagedata['content']}}</p></div>
     </div>
 
     
 </div>
 <br>
     <form action='/delete_post_confirmation/{{messagedata['message_id']}}' method="POST" class="row needs-validation">
-        <div class = "col-auto justify-content-center">
+        <div class = "row justify-content-center">
             <br>
             <input class="btn btn-secondary" type="submit" value = "Delete"/>
         </div>
         
-    </form>
+    </form> -->
 
 
 {% endblock %}
