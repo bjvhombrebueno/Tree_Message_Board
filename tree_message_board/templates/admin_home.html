@@ -3,40 +3,12 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<h2>Admin Landing Page</h2>
+
+
+<h2>Admin Home</h2>
 <p>Welcome back, {{ username }}!</p>
 
-<style>
-    .btn-group .button {
-      background-color: #aa6d04; /* Green */
-      border: 1px solid rgb(232, 214, 49);
-      color: white;
-      padding: 15px 32px;
-      text-align: center;
-      text-decoration: none;
-      font-size: 16px;
-      cursor: pointer;
-      width: 150px;
-      display: block;
-    }
-    
-    .btn-group .button:not(:last-child) {
-      border-bottom: none; /* Prevent double borders */
-    }
-    
-    .btn-group .button:hover {
-      background-color: #3e698e;
-    }
-    </style>
-    
-    <div class="btn-group">
-      <button class="button">Reports</button>
-      <button class="button">Manage Records</button>
-      <button class="button">Manage Users</button>
-      <button class="button">Manage News</button>
-    </div>
-    
-    <form action="/admin_home.html" method="POST">
+       <!-- <form action="/admin_home.html" method="POST">
       
       <div class="container text-center">
         <div class = "row justify-content-center">
@@ -63,30 +35,18 @@
           </div>
         </div>
     </div>
-  </form>
+  </form> -->
     
   {% for message in allmessages %}
       
-    <tr> 
-      <div class = "col-auto">
-          <td>{{message['message_id']}}</td>
-      </div>
-      <div class = "col-auto">
-          <td>{{message['user_id']}}</td>
-      </div>
-      <div class = "col-auto">
-          <td>{{message['title']}}</td>
-      </div>
-      <div class = "col-auto">
-          <td>{{message['content']}}</td>
-      </div>
-      <!-- For this part there is links to make a booking and to the customer home page which passes the customer id automatically -->
-       <!-- This is done to make it easier to redirect to those pages without entering the name of the customer again -->
-      <div class = "col-auto">
-        <!-- <td><a href="/view_postget/?messageid={{message['message_id']}}" type="button" class="btn btn-secondary">Link</a></td>   -->
-        <td><a href="/view_post/{{message['message_id']}}" type="button" class="btn btn-secondary">Link</a></td>
-      </div>
-      
-    </tr>
+  <div class ="col-md-6 ">
+          
+    <td><a href="/view_post/{{message['message_id']}}" type="button" class="btn btn-secondary">{{message['title']}}</a></td>
+  </div>
+  <div class ="col-auto ">
+    <p class="text-md-start">{{message['content']}}</p>
+  </div>
+
+
     {% endfor %}
 {% endblock %}

@@ -10,6 +10,7 @@ import mysql.connector
 from flask_hashing import Hashing
 from tree_message_board import app
 from tree_message_board import connect
+
 hashing = Hashing(app)  #create an instance of hashing
 
 # Change this to your secret key (can be anything, it's for extra protection)
@@ -20,13 +21,13 @@ app.secret_key = 'COMP639$3cr3+K3y'
 PASSWORD_SALT = 'COMP639$@7+V@7u3'
 
 # Default role assigned to new users upon registration.
-DEFAULT_USER_ROLE = 'user'
+DEFAULT_USER_ROLE = 'member'
 
 # Default status assigned to new users upon registration.
 DEFAULT_STATUS = 'active'
 
 # Default user profile picture assigned to new users upon registration.
-DEFAULT_PROFILE_PICTURE = 'link me'
+DEFAULT_PROFILE_PICTURE = 'profile.png'
 
 
 
@@ -49,7 +50,7 @@ def getCursor():
     return cursor
 
 
-@app.route('/admin/home')
+@app.route('/admin/home', methods=['GET','POST'])
 def admin_home():
     # Check if user is loggedin
     if 'loggedin' in session:
@@ -73,11 +74,19 @@ def search_users():
         if session['role'] == 'admin':
             # User is loggedin show them the home page and role is staff
             if request.method == "GET":
-                return render_template("user_search.html")
+                return render_template("user_search.html", username=session['username'], user_role=session['role'])
             else:
                 searchString = request.form.get('searchstring')
+                searchBy=request.form['searchby']
                 #SQL to return all of the matches of the search string
-                sql= "SELECT * FROM users WHERE username LIKE '%"+ searchString + "%' OR first_name LIKE '%"+ searchString + "%' OR last_name LIKE '%"+ searchString + "%' ORDER BY user_id;"
+                if searchBy == "firstname" :
+                    sql ="SELECT * FROM users WHERE first_name LIKE '%"+ searchString + "%' ORDER BY last_name;"
+                elif searchBy == "lastname" :
+                    sql ="SELECT * FROM users WHERE last_name LIKE '%"+ searchString + "%' ORDER BY last_name;"
+                else:
+                    sql ="SELECT * FROM users WHERE username LIKE '%"+ searchString + "%' ORDER BY last_name;"
+
+                # sql= "SELECT * FROM users WHERE username LIKE '%"+ searchString + "%' OR first_name LIKE '%"+ searchString + "%' OR last_name LIKE '%"+ searchString + "%' ORDER BY user_id;"
                 print(sql)
                 connection = getCursor()
                 connection.execute(sql)
@@ -230,6 +239,45 @@ def change_role(userid):
                     # cursor.execute("UPDATE users SET role = %s WHERE username = %s;", (role, int(userid),))
                     cursor.execute(updatestring)
                     usrmsg = "Role changed"
+                    return render_template("confirmation.html", usrmsg=usrmsg, username=session['username'], user_role=session['role'])
+            
+                
+        
+        
+        else:
+            return render_template('Error.html', user_role=session['role'])
+
+        
+    
+    # User is not loggedin redirect to login page
+    return redirect(url_for('login'))
+
+@app.route('/access/status/<int:userid>', methods=['GET', 'POST'])
+def change_status(userid):
+    # Check if user is loggedin
+    print(userid)
+    if 'loggedin' in session:
+        if session['role'] == 'admin':
+                if request.method =="GET":
+                    cursor = getCursor()
+                    cursor.execute('SELECT * FROM users WHERE user_id = %s', (userid,))
+                    account = cursor.fetchone()
+                    return render_template("change_status.html", userid = userid, account=account,  username=session['username'], user_role=session['role'])
+                # return(render_template("change_access.html",userlist=userList, username=session['username'], user_role=session['role']))
+
+            
+                if request.method == "POST":
+                    
+                    status = request.form['status']
+                    print(userid)
+                    print(status)
+                    cursor = getCursor()
+                    # sql= "SELECT * FROM users WHERE username LIKE '%"+ searchString + "%' OR first_name LIKE '%"+ searchString + "%' OR last_name LIKE '%"+ searchString + "%' ORDER BY user_id;"
+                    updatestring = "UPDATE users SET status = "+ status + " WHERE (user_id =' "+ str(userid) +"');"
+                    print(updatestring)
+                    # cursor.execute("UPDATE users SET role = %s WHERE username = %s;", (role, int(userid),))
+                    cursor.execute(updatestring)
+                    usrmsg = "Status changed"
                     return render_template("confirmation.html", usrmsg=usrmsg, username=session['username'], user_role=session['role'])
             
                 

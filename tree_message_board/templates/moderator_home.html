@@ -3,82 +3,99 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<h2>moderator Landing Page</h2>
+
+ 
+
+
+<h2>Moderator Home</h2>
 <p>Welcome back, {{ username }}!</p>
+{% for message in allmessages %}
+      
+  <div class ="col-md-6 ">
+          
+    <td><a href="/view_post/{{message['message_id']}}" type="button" class="btn btn-secondary">{{message['title']}}</a></td>
+  </div>
+  <div class ="col-auto ">
+    <p class="text-md-start">{{message['content']}}</p>
+  </div>
+
+
+    {% endfor %}
+
+{% endblock %}
 
 <style>
-    .btn-group .button {
-      background-color: #0a04aa; /* Green */
-      border: 1px solid blue;
-      color: white;
-      padding: 15px 32px;
-      text-align: center;
-      text-decoration: none;
-      font-size: 16px;
-      cursor: pointer;
-      width: 150px;
-      display: block;
-    }
+  .btn-group .button {
+    background-color: #0a04aa; /* Green */
+    border: 1px solid blue;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    width: 150px;
+    display: block;
+  }
+  
+  .btn-group .button:not(:last-child) {
+    border-bottom: none; /* Prevent double borders */
+  }
+  
+  .btn-group .button:hover {
+    background-color: #3e698e;
+  }
+  </style>
+  
+  <div class="btn-group">
+    <button class="button">About</button>
+    <button class="button">Contact Us</button>
+    <button class="button">Reports</button>
+    <button class="button">Manage Users</button>
+  </div>
+  <form action="/moderator_home.html" method="POST">
     
-    .btn-group .button:not(:last-child) {
-      border-bottom: none; /* Prevent double borders */
-    }
-    
-    .btn-group .button:hover {
-      background-color: #3e698e;
-    }
-    </style>
-    
-    <div class="btn-group">
-      <button class="button">About</button>
-      <button class="button">Contact Us</button>
-      <button class="button">Reports</button>
-      <button class="button">Manage Users</button>
-    </div>
-    <form action="/moderator_home.html" method="POST">
-      
-      <div class="container text-center">
-        <div class = "row justify-content-center">
+    <div class="container text-center">
+      <div class = "row justify-content-center">
+        <div class = "col-auto">
+          <br>
+          <a href={{url_for('create_post')}} type="button" class="btn btn-secondary">Create Post</a>
+      </div>
           <div class = "col-auto">
-            <br>
-            <a href={{url_for('create_post')}} type="button" class="btn btn-secondary">Create Post</a>
-        </div>
-            <div class = "col-auto">
-                <br>
-                <a href={{url_for('delete_post')}} type="button" class="btn btn-secondary">Delete Post</a>
-        </div>
-            </div>
-            <div class = "col-auto">
-                <br>
-                <a href={{url_for('search_users')}} type="button" class="btn btn-secondary">Search users</a>
-        </div>
-            </div>
-        </div>
-    </div>
-  </form>
+              <br>
+              <a href={{url_for('delete_post')}} type="button" class="btn btn-secondary">Delete Post</a>
+      </div>
+          </div>
+          <div class = "col-auto">
+              <br>
+              <a href={{url_for('search_users')}} type="button" class="btn btn-secondary">Search users</a>
+      </div>
+          </div>
+      </div>
+  </div>
+</form>
+  
+{% for message in allmessages %}
     
-  {% for message in allmessages %}
-      
-    <tr> 
-      <div class = "col-auto">
-          <td>{{message['message_id']}}</td>
-      </div>
-      <div class = "col-auto">
-          <td>{{message['user_id']}}</td>
-      </div>
-      <div class = "col-auto">
-          <td>{{message['title']}}</td>
-      </div>
-      <div class = "col-auto">
-          <td>{{message['content']}}</td>
-      </div>
-      <!-- For this part there is links to make a booking and to the customer home page which passes the customer id automatically -->
-       <!-- This is done to make it easier to redirect to those pages without entering the name of the customer again -->
-      <div class = "col-auto">
-        <!-- <td><a href="/view_postget/?messageid={{message['message_id']}}" type="button" class="btn btn-secondary">Link</a></td>   -->
-        <td><a href="/view_post/{{message['message_id']}}" type="button" class="btn btn-secondary">Link</a></td>
-      </div>
-      
-    </tr>
-    {% endfor %}
-{% endblock %}
+  <tr> 
+    <div class = "col-auto">
+        <td>{{message['message_id']}}</td>
+    </div>
+    <div class = "col-auto">
+        <td>{{message['user_id']}}</td>
+    </div>
+    <div class = "col-auto">
+        <td>{{message['title']}}</td>
+    </div>
+    <div class = "col-auto">
+        <td>{{message['content']}}</td>
+    </div>
+    <!-- For this part there is links to make a booking and to the customer home page which passes the customer id automatically -->
+     <!-- This is done to make it easier to redirect to those pages without entering the name of the customer again -->
+    <div class = "col-auto">
+      <!-- <td><a href="/view_postget/?messageid={{message['message_id']}}" type="button" class="btn btn-secondary">Link</a></td>   -->
+      <td><a href="/view_post/{{message['message_id']}}" type="button" class="btn btn-secondary">Link</a></td>
+    </div>
+    
+  </tr>
+  {% endfor %}

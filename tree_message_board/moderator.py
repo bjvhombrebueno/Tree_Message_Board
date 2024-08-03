@@ -12,7 +12,6 @@ from flask_hashing import Hashing
 from tree_message_board import app
 from tree_message_board import connect
 
-
 hashing = Hashing(app)  #create an instance of hashing
 
 # Change this to your secret key (can be anything, it's for extra protection)
@@ -23,13 +22,13 @@ app.secret_key = 'COMP639$3cr3+K3y'
 PASSWORD_SALT = 'COMP639$@7+V@7u3'
 
 # Default role assigned to new users upon registration.
-DEFAULT_USER_ROLE = 'user'
+DEFAULT_USER_ROLE = 'member'
 
 # Default status assigned to new users upon registration.
 DEFAULT_STATUS = 'active'
 
 # Default user profile picture assigned to new users upon registration.
-DEFAULT_PROFILE_PICTURE = 'link me'
+DEFAULT_PROFILE_PICTURE = 'profile.png'
 
 
 
@@ -55,7 +54,7 @@ def getCursor():
 
 
 
-@app.route('/moderator/home')
+@app.route('/moderator/home', methods=['GET','POST'])
 def moderator_home():
     # Check if user is loggedin
     if 'loggedin' in session:

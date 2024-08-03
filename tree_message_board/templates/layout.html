@@ -25,7 +25,7 @@
 			<div class="collapse navbar-collapse justify-content-md-end" id="navbarscg">
 				<ul class="navbar-nav">
 					<li class="nav-item">
-						<a class="nav-link" href="{% if user_role == 'admin' %}{{ url_for('admin_home') }}{% elif user_role == 'staff' %}{{ url_for('moderator_home') }}{% elif user_role == 'member' %}{{ url_for('member_home') }}{% endif %}"><i class="bi bi-house-door-fill"></i>Home</a>
+						<a class="nav-link" href="{% if user_role == 'admin' %}{{ url_for('admin_home') }}{% elif user_role == 'moderator' %}{{ url_for('moderator_home') }}{% elif user_role == 'member' %}{{ url_for('member_home') }}{% endif %}">Home</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="{{ url_for('profile') }}"><i class="bi bi-person-circle"></i>Profile</a>
@@ -38,6 +38,29 @@
 					<li class="nav-item">
 						<a class="nav-link" href="{{ url_for('delete_post') }}"><i class="fas fa-user-circle"></i>Delete Post</a>
 					</li>
+
+					{% if user_role == 'admin' %}
+					<li class="nav-item">
+						<a class="nav-link" href=""><i class="fas fa-user-circle"></i>Moderation</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ url_for('search_users') }}"><i class="fas fa-user-circle"></i>Search Users</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ url_for('change_access') }}"><i class="fas fa-user-circle"></i>Change Access</a>
+					</li>
+					
+
+					{% endif %}
+					
+					{% if user_role == 'moderator' %}
+					<li class="nav-item">
+						<a class="nav-link" href=""><i class="fas fa-user-circle"></i>Moderation</a>
+					</li>
+					
+
+					{% endif %}
+
 					<li class="nav-item">
 						<a class="nav-link" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a>
 					</li>

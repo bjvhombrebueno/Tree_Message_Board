@@ -67,7 +67,7 @@ def login():
         
         # Check if account exists using MySQL
         cursor = getCursor()
-        cursor.execute('SELECT user_id, username, password_hash, role FROM users WHERE username = %s', (username,))
+        cursor.execute('SELECT user_id, username, password_hash, role, status FROM users WHERE username = %s', (username,))
         
         # Fetch one record and return result
         account = cursor.fetchone()
@@ -81,14 +81,17 @@ def login():
                 session['id'] = account['user_id']
                 session['username'] = account['username']
                 session['role'] = account['role']
+                session['status']= account['status']
                
                 # Redirect to home page
-                if session['role'] == 'member':
+                if session['role'] == 'member' and session['status'] == 'active':
                     return redirect(url_for('member_home'))
-                elif session['role'] == 'moderator':
+                elif session['role'] == 'moderator'and session['status'] == 'active':
                     return redirect(url_for('moderator_home'))
-                else:
+                elif session['role'] == 'admin'and session['status'] == 'active' :
                     return redirect(url_for('admin_home'))
+                else:
+                    msg = "User inactive, please contact an administrator to restore access"
             else:
                 #password incorrect
                 msg = 'Incorrect password!'
