@@ -190,7 +190,7 @@ def view_post(messageid):
             created_at = datetime.datetime.now()                
             cursor = getCursor()
             cursor.execute("INSERT INTO replies (message_id, user_id, content, created_at) VALUES(%s,%s,%s,%s);",(messageId, userId, content, created_at,))
-            usrmsg = "REPLY ADDED"
+            usrmsg = "Reply added"
             # return render_template('view_post.html',messageid=messageId, username=session['username'], user_role=session['role'], messagedata=messageData, replydata=replyData)    
             return render_template('confirmation.html', usrmsg = usrmsg,username=session['username'], user_role=session['role'])
         if request.method =='POST'and request.form.get('delete'):
@@ -200,7 +200,7 @@ def view_post(messageid):
             cursor = getCursor()
             cursor.execute("DELETE FROM messages WHERE message_id = %s;",(int(messageid),))
             
-            usrmsg = "POST DELETED"
+            usrmsg = "Post deleted"
             # return render_template('view_post.html',messageid=messageId, username=session['username'], user_role=session['role'], messagedata=messageData, replydata=replyData)    
             return render_template('confirmation.html', usrmsg = usrmsg,username=session['username'], user_role=session['role'])
         
@@ -210,28 +210,49 @@ def view_post(messageid):
     return redirect(url_for('login'))
     
 
-@app.route("/view_reply", methods=['GET','POST'])
-@app.route("/view_reply/<int:replyid>", methods=['GET','POST'])
-def view_reply(replyid):
+@app.route("/delete_reply_confirmation", methods=['GET','POST'])
+@app.route("/delete_reply_confirmation/<int:replyid>", methods=['GET','POST'])
+def delete_reply_confirmation(replyid):
     print(replyid)
     if 'loggedin' in session:
         
         cursor = getCursor()
         cursor.execute("SELECT * FROM replies WHERE reply_id = %s;", (int(replyid),))
-        replyData = cursor.fetchall()
+        replyData = cursor.fetchone()
         if request.method =='POST':
                          
             cursor = getCursor()
             cursor.execute("DELETE FROM replies WHERE reply_id = %s;",(int(replyid),))
-            usrmsg = "REPLY DELETED"
+            usrmsg = "Reply deleted"
             # return render_template('view_post.html',messageid=messageId, username=session['username'], user_role=session['role'], messagedata=messageData, replydata=replyData)    
             return render_template('confirmation.html', usrmsg = usrmsg,username=session['username'], user_role=session['role'])
         
-        return render_template('view_reply.html', replyid=replyid, username=session['username'], user_role=session['role'], replydata=replyData)
+        return render_template('delete_reply_confirmation.html', replyid=replyid, username=session['username'], user_role=session['role'], replydata=replyData)
 
     # User is not logged in - redirect to login page
     return redirect(url_for('login'))
 
+@app.route("/delete_post_confirmation",methods=['GET','POST'])
+@app.route("/delete_post_confirmation/<int:messageid>",methods=['GET','POST'])
+def delete_post_confirmation(messageid):
+    if 'loggedin' in session:
+        print(messageid)
+        cursor = getCursor()
+        cursor.execute("SELECT * FROM messages WHERE message_id = %s;", (int(messageid),))
+        messageData = cursor.fetchone()
+        if request.method =='POST':
+                         
+            cursor = getCursor()
+            cursor.execute("DELETE FROM replies WHERE message_id = %s;",(int(messageid),))
+            cursor.execute("DELETE FROM messages WHERE message_id = %s;",(int(messageid),))
+            usrmsg = "Post deleted"
+            # return render_template('view_post.html',messageid=messageId, username=session['username'], user_role=session['role'], messagedata=messageData, replydata=replyData)    
+            return render_template('confirmation.html', usrmsg = usrmsg,username=session['username'], user_role=session['role'])
+        
+        return render_template('delete_post_confirmation.html', messageid=messageid, username=session['username'], user_role=session['role'], messagedata=messageData)
+
+    # User is not logged in - redirect to login page
+    return redirect(url_for('login'))
 
 
 @app.route('/create_post',methods=['GET','POST'])
@@ -253,7 +274,8 @@ def create_post():
             print(created_at)
             cursor = getCursor()
             cursor.execute("INSERT INTO messages (user_id, title, content, created_at) VALUES(%s,%s,%s,%s);",(userId, title, content, created_at,))
-            return redirect(url_for('member_home'))
+            usrmsg = "Post Created"
+            return render_template('confirmation.html', usrmsg = usrmsg,username=session['username'], user_role=session['role'])
         return render_template('create_post.html',username=session['username'], user_role=session['role'])
     # User is not logged in - redirect to login page
     return redirect(url_for('login'))
@@ -284,6 +306,8 @@ def delete_post():
 
     # User is not logged in - redirect to login page
     return redirect(url_for('login'))
+
+
 
 @app.route('/create_reply',methods=['GET','POST'])
 def create_reply():
@@ -386,7 +410,7 @@ def profile(userid=None):
         elif request.method=="POST" and request.form.get("removeimage"):
             cursor = getCursor()
             cursor.execute('UPDATE users SET profile_image = %s WHERE user_id = %s;', (DEFAULT_PROFILE_PICTURE, session['id'],))
-            usrmsg="Image updated"
+            usrmsg="Image Updated"
             return render_template('confirmation.html',usrmsg=usrmsg, username=session['username'], user_role=session['role'])
             
         elif request.method=="POST" and request.form.get("changeaccess"):
@@ -432,7 +456,7 @@ def profileedit():
              # cursor.execute('SELECT user_id, username, email,first_name, last_name, birth_date, location, profile_image, role, status FROM users WHERE user_id = %s', (session['id'],))
             cursor.execute("UPDATE users SET email = %s, first_name = %s, last_name = %s, birth_date = %s, location = %s WHERE user_id = %s;", (email, firstname, lastname, birthdate, location, session['id'],))
             # Show the profile page with account info
-            usrmsg="Profile updated"
+            usrmsg="Profile Updated"
             return render_template('confirmation.html',usrmsg = usrmsg, username=session['username'], user_role=session['role'])
         return render_template('edit_profile.html', username=session['username'], user_role=session['role'])
     
@@ -486,6 +510,7 @@ def image():
 
         # # We need all the account info for the user so we can display it on the profile page
         if request.method=="POST":
+            
             newImage = request.form.get('image')
             # newProfileImage = os.path.join(app.config["UPLOAD_FOLDER"], str(newImage))
             cursor = getCursor()

@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h2 class="text-center">Delete Reply</h2>
+<h5 class="text-center">Delete this reply?</h5>
+<p class="text-center">{{replydata['content']}}</p>
+<p class="text-center">{{replydata['created_at']}}</p>
+<br>
+    <form action='/delete_reply_confirmation/{{replydata['reply_id']}}' method="POST" class="row needs-validation">
+        <div class = "col-auto">
+            <br>
+            <input class="btn btn-secondary" type="submit" value = "Delete"/>
+        </div>
+        
+    </form>
+
+
+{% endblock %}

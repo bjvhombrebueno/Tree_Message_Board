@@ -5,7 +5,7 @@ app.secret_key = 'Example Secret Key (Change this!)'
 
 
 IMAGES_FOLDER = os.path.join('static', 'images')
-
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = IMAGES_FOLDER
 
