@@ -145,10 +145,10 @@ def moderation():
             # User is loggedin show them the home page and role is staff
             if request.method == "GET":
                 cursor = getCursor()
-                cursor.execute('SELECT * FROM messages',)
+                cursor.execute('SELECT * FROM users JOIN messages ON users.user_id = messages.user_id',)
                 allMessages = cursor.fetchall()
                 cursor = getCursor()
-                cursor.execute('SELECT * FROM replies',)
+                cursor.execute('SELECT * FROM replies JOIN users ON replies.user_id = users.user_id',)
                 allReplies= cursor.fetchall()
                 
 

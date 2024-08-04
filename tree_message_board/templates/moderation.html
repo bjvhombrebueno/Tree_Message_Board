@@ -12,6 +12,7 @@
   <thead>
     <tr>
       <th scope="col">Title</th>
+      <th scope="col">Username</th>
       <th scope="col">Content</th>
       <th scope="col">Delete</th>
     </tr>
@@ -25,8 +26,11 @@
           <td>{{message['title']}}</td>
       </div>
       <div class = "col-auto">
-          <td>{{message['content']}}</td>
+          <td>{{message['username']}}</td>
       </div>
+      <div class = "col-auto">
+        <td>{{message['content']}}</td>
+    </div>
       <!-- For this part there is links to make a booking and to the customer home page which passes the customer id automatically -->
        <!-- This is done to make it easier to redirect to those pages without entering the name of the customer again -->
       <div class = "col-auto">
@@ -38,9 +42,11 @@
     {% endfor %}
     {% for reply in allreplies %}
     <tr> 
-            
             <div class = "col-auto">
-              <td>" "</td>
+            <td>{{reply['title']}}</td>
+            </div>
+            <div class = "col-auto">
+              <td>{{reply['username']}}</td>
             </div>
             <div class = "col-auto">
               <td>{{reply['content']}}</td>
