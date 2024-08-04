@@ -21,6 +21,9 @@
           <td>{{message['title']}}</td>
       </div>
       <div class = "col-auto">
+        <td>{{message['username']}}</td>
+    </div>
+      <div class = "col-auto">
           <td>{{message['content']}}</td>
       </div>
       <!-- For this part there is links to make a booking and to the customer home page which passes the customer id automatically -->
@@ -35,9 +38,13 @@
     {% for reply in replydata %}
     <tr> 
             
-            <div class = "col-auto">
-              <td>" "</td>
-            </div>
+          <div class = "col-auto">
+            <td>{{reply['title']}}</td>
+          </div>
+          <div class = "col-auto">
+            <td>{{reply['username']}}</td>
+          </div>
+
             <div class = "col-auto">
               <td>{{reply['content']}}</td>
             </div>

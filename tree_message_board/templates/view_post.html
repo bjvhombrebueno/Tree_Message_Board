@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 
 {% block content %}
+<!-- Displays the post along with the replies, with the option to create a new reply -->
 <div class ="container justify-content-center">
     <div class="row justify-content-center">
         <div class="col-8"><h2 class="text-center">{{messagedata['title']}}</h2></div>
@@ -13,7 +14,6 @@
         <div class="col-8"><p class="text-start">{{messagedata['content']}}</p></div>
     </div>
 
-    
 </div>
 
 {% for reply in replydata %}
@@ -29,11 +29,8 @@
         <div class="col-8"><p class="text-start">{{reply['content']}}</p></div>
     </div>
 
-    
 </div>
 {% endfor %}
-
-
 <br>
     <form action='/view_post/{{messageid}}' method="POST" class="row needs-validation">
     
@@ -53,18 +50,8 @@
                         <br>
                         <input class="btn btn-secondary" type="submit" name="reply" value="Reply"/>
                     </div>
-
-                    <div class = "col-auto">
-                        <br>
-                        <a href="/{{user_role}}/home" type="button" class="btn btn-secondary" >Home</a>
-                    </div>
-                    
-
                 </div>
-                
             </div>   
-        
     </form>
-
 
 {% endblock %}

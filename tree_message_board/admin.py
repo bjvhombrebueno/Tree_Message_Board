@@ -55,11 +55,11 @@ def admin_home():
     # Check if user is loggedin
     if 'loggedin' in session:
         if session['role'] == 'admin':
-            # User is loggedin show them the home page and role is admin
+            # User is logged in show them the home page and role is admin
+            # Show the messages in the database
             cursor = getCursor()
             cursor.execute('SELECT * FROM messages',)
             allMessages = cursor.fetchall()
-            
             return render_template('admin_home.html', username=session['username'], user_role=session['role'], allmessages = allMessages)
         else:
             return render_template('Error.html', user_role=session['role'])
@@ -72,38 +72,29 @@ def search_users():
     # Check if user is loggedin
     if 'loggedin' in session:
         if session['role'] == 'admin':
-            # User is loggedin show them the home page and role is staff
+            # User is loggedin show them the home page and role is admin
             if request.method == "GET":
+                # Go to the user seach form
                 return render_template("user_search.html", username=session['username'], user_role=session['role'])
             else:
                 searchString = request.form.get('searchstring')
                 searchBy=request.form['searchby']
-                #SQL to return all of the matches of the search string
+                #SQL to return all of the matches of the search string,chosen by whatever option was chosen
                 if searchBy == "firstname" :
                     sql ="SELECT * FROM users WHERE first_name LIKE '%"+ searchString + "%' ORDER BY last_name;"
                 elif searchBy == "lastname" :
                     sql ="SELECT * FROM users WHERE last_name LIKE '%"+ searchString + "%' ORDER BY last_name;"
                 else:
                     sql ="SELECT * FROM users WHERE username LIKE '%"+ searchString + "%' ORDER BY last_name;"
-
-                # sql= "SELECT * FROM users WHERE username LIKE '%"+ searchString + "%' OR first_name LIKE '%"+ searchString + "%' OR last_name LIKE '%"+ searchString + "%' ORDER BY user_id;"
-                print(sql)
+                #Show the search results
                 connection = getCursor()
                 connection.execute(sql)
                 searchResults = connection.fetchall()
-                print(request.form)
-                print(searchResults)
                 return render_template("user_search.html",searchresults=searchResults, username=session['username'], user_role=session['role'])
-                # usrmsg = "search"
-                # return render_template('confirmation.html',usrmsg=usrmsg, username=session['username'], user_role=session['role'])
-        
-        
-        
+                
         else:
             return render_template('Error.html', user_role=session['role'])
 
-        
-    
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
 
@@ -123,7 +114,7 @@ def profileadmin(userid=None):
         cursor.execute('SELECT * FROM users WHERE user_id = %s', (userid,))
         account = cursor.fetchone()
         print(account)
-
+        # Depending on what option was chosen, redirect the data to preset whatever form needs it
         if request.method=="POST" and request.form.get("editprofile"):
             return render_template('edit_profile.html',account = account, username=session['username'], user_role=session['role'])
         elif request.method=="POST" and request.form.get("changepassword"):
@@ -142,179 +133,84 @@ def moderation():
     # Check if user is loggedin
     if 'loggedin' in session:
         if session['role'] == 'admin' or session['role'] == 'moderator' :
-            # User is loggedin show them the home page and role is staff
+            # User is loggedin show them the home page and role is moderator or admin
             if request.method == "GET":
+                #Displays all the messages and replies in the database
                 cursor = getCursor()
                 cursor.execute('SELECT * FROM users JOIN messages ON users.user_id = messages.user_id',)
                 allMessages = cursor.fetchall()
                 cursor = getCursor()
                 cursor.execute('SELECT * FROM replies JOIN users ON replies.user_id = users.user_id',)
                 allReplies= cursor.fetchall()
-                
-
                 return render_template("moderation.html", username=session['username'], user_role=session['role'], allmessages=allMessages, allreplies=allReplies)
-            
-        
-        
         else:
             return render_template('Error.html', user_role=session['role'])
-
-        
-    
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
-
-
-
-# @app.route('/access/<int:userid>', methods=['GET', 'POST'])
-# def change_access(userid):
-#     # Check if user is loggedin
-#     if 'loggedin' in session:
-#         if session['role'] == 'admin':
-#             print(userid)
-#             if request.method == 'GET':
-#                 cursor = getCursor()
-#                 cursor.execute('SELECT * FROM users WHERE user_id = %s', (userid,))
-#                 account = cursor.fetchone()
-#                 return(render_template("change_access.html", username=session['username'], user_role=session['role']))
-
-#             if request.method == 'POST':
-#                 # username = request.form.get('username')
-#                 # role = request.form.get('role')
-#                 # status = request.form.get('status')
-#                 # print(username)
-#                 # print(role)
-#                 # print(status)
-
-#                 # cursor = getCursor()
-                
-#                 # cursor.execute("UPDATE users SET role = %s, status = %s WHERE username = %s;", (role, status, username,))
-#                 usrmsg = "Access changed"
-#                 return render_template("confirmation.html", usrmsg=usrmsg, username=session['username'], user_role=session['role'])
-#             else:
-#                 return render_template("change_access.html", username=session['username'], user_role=session['role'])
-        
-        
-#         else:
-#             return render_template('Error.html', user_role=session['role'])
-
-        
-    
-#     # User is not loggedin redirect to login page
-#     return redirect(url_for('login'))
 
 @app.route('/access', methods=['GET', 'POST'])
 def change_access():
     # Check if user is loggedin
     if 'loggedin' in session:
         if session['role'] == 'admin':
-            
             if request.method == 'GET':
+                #Displays all the users in the database to change the access
                 cursor = getCursor()
                 cursor.execute('SELECT user_id, username, email, first_name, last_name,role, status  FROM users;')
                 userList = cursor.fetchall()
                 return(render_template("change_access.html",userlist=userList, username=session['username'], user_role=session['role']))
-
-            
-
-                    # username = request.form.get('username')
-                # role = request.form.get('role')
-                # status = request.form.get('status')
-                # print(username)
-                # print(role)
-                # print(status)
-
-                # cursor = getCursor()
-                
-                # cursor.execute("UPDATE users SET role = %s, status = %s WHERE username = %s;", (role, status, username,))
-                usrmsg = "Access changed"
-                return render_template("confirmation.html", usrmsg=usrmsg, username=session['username'], user_role=session['role'])
             else:
                 return render_template("change_access.html", username=session['username'], user_role=session['role'])
-        
-        
         else:
             return render_template('Error.html', user_role=session['role'])
 
-        
-    
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
 
 @app.route('/access/role/<int:userid>', methods=['GET', 'POST'])
 def change_role(userid):
     # Check if user is loggedin
-    print(userid)
     if 'loggedin' in session:
         if session['role'] == 'admin':
                 if request.method =="GET":
+                    #Get the value of the user whose role is to be changed
                     cursor = getCursor()
                     cursor.execute('SELECT * FROM users WHERE user_id = %s', (userid,))
                     account = cursor.fetchone()
                     return render_template("change_role.html", userid = userid, account=account,  username=session['username'], user_role=session['role'])
-                # return(render_template("change_access.html",userlist=userList, username=session['username'], user_role=session['role']))
-
-            
                 if request.method == "POST":
-                    
+                    #Set the value for the new role
                     role = request.form['role']
-                    print(userid)
-                    print(role)
                     cursor = getCursor()
-                    # sql= "SELECT * FROM users WHERE username LIKE '%"+ searchString + "%' OR first_name LIKE '%"+ searchString + "%' OR last_name LIKE '%"+ searchString + "%' ORDER BY user_id;"
                     updatestring = "UPDATE users SET role = "+ role + " WHERE (user_id =' "+ str(userid) +"');"
-                    print(updatestring)
-                    # cursor.execute("UPDATE users SET role = %s WHERE username = %s;", (role, int(userid),))
                     cursor.execute(updatestring)
                     usrmsg = "Role changed"
                     return render_template("confirmation.html", usrmsg=usrmsg, username=session['username'], user_role=session['role'])
-            
-                
-        
-        
         else:
             return render_template('Error.html', user_role=session['role'])
-
-        
-    
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
 
 @app.route('/access/status/<int:userid>', methods=['GET', 'POST'])
 def change_status(userid):
     # Check if user is loggedin
-    print(userid)
     if 'loggedin' in session:
         if session['role'] == 'admin':
                 if request.method =="GET":
+                    #Get the value of the user whose status is to be changed
                     cursor = getCursor()
                     cursor.execute('SELECT * FROM users WHERE user_id = %s', (userid,))
                     account = cursor.fetchone()
                     return render_template("change_status.html", userid = userid, account=account,  username=session['username'], user_role=session['role'])
-                # return(render_template("change_access.html",userlist=userList, username=session['username'], user_role=session['role']))
-
-            
                 if request.method == "POST":
-                    
+                    #Set the value for the new status
                     status = request.form['status']
-                    print(userid)
-                    print(status)
                     cursor = getCursor()
-                    # sql= "SELECT * FROM users WHERE username LIKE '%"+ searchString + "%' OR first_name LIKE '%"+ searchString + "%' OR last_name LIKE '%"+ searchString + "%' ORDER BY user_id;"
                     updatestring = "UPDATE users SET status = "+ status + " WHERE (user_id =' "+ str(userid) +"');"
-                    print(updatestring)
-                    # cursor.execute("UPDATE users SET role = %s WHERE username = %s;", (role, int(userid),))
                     cursor.execute(updatestring)
                     usrmsg = "Status changed"
                     return render_template("confirmation.html", usrmsg=usrmsg, username=session['username'], user_role=session['role'])
-            
-                
-        
-        
         else:
             return render_template('Error.html', user_role=session['role'])
-
-        
-    
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))

@@ -5,7 +5,7 @@
 {% block content %}
 <h2 class="text-center">Profile Page</h2>
 
-
+<!-- Shows the user's data -->
 <div class="container text-center">
     <div class = "row justify-content-center">
         
@@ -19,17 +19,14 @@
             <br>
             <input class="btn btn-secondary" type="submit" name="removeimage" value="Remove Image"/>
             <br>
-            <input class="btn btn-secondary" type="submit" name="changeaccess" value="Change Access"/>
             </form>
             
         </div>
         <div class = "col-auto">
-            
             <img src="{{ profileimage }}" alt="ProfileImage" height="128px" width="128px">
         </div>
         <div class = "col-5">
             <table>
-                
                 <tr>
                     <td>Username:</td>
                     <td>{{ account['username'] }}</td>
@@ -77,74 +74,4 @@
     
 </div>
 
-
-<!-- <div>
-    <p>Your account details are below:</p>
-    <table>
-        <img src="{{ profileimage }}" alt="ProfileImage" height="64px" width="64px">
-        <tr>
-            <td>Username:</td>
-            <td>{{ account['username'] }}</td>
-        </tr>
-        <tr>
-            <td>Email:</td>
-            <td>{{ account['email'] }}</td>
-        </tr>
-        <tr>
-            <td>First Name:</td>
-            <td>{{ account['first_name'] }}</td>
-        </tr>
-        <tr>
-            <td>Last Name:</td>
-            <td>{{ account['last_name'] }}</td>
-        </tr>
-        <tr>
-            <td>Birth Date:</td>
-            <td>{{ account['birth_date'] }}</td>
-        </tr>
-        <tr>
-            <td>Location:</td>
-            <td>{{ account['location'] }}</td>
-        </tr>
-        <tr>
-            <td>Profile Image:</td>
-            <td>{{ account['profile_image'] }}</td>
-        </tr>
-        <tr>
-            <td>Role:</td>
-            <td>{{ account['role'] }}</td>
-        </tr>
-        <tr>
-            <td>Status:</td>
-            <td>{{ account['status'] }}</td>
-        </tr>
-        <tr>
-            <form action="/profile" method="POST">
-                <div class = "col-auto">
-                    <br>
-                    <input class="btn btn-secondary" type="submit" name="editprofile" value="Edit Profile"/>
-                </div>
-                <div class = "col-auto">
-                    <br>
-                    <input class="btn btn-secondary" type="submit" name="changepassword" value="Change Password"/>
-                </div>
-                <div class = "col-auto">
-                    <br>
-                    <input class="btn btn-secondary" type="submit" name="changeimage" value="Change Image"/>
-                </div>
-                <div class = "col-auto">
-                    <br>
-                    <input class="btn btn-secondary" type="submit" name="removeimage" value="Remove Image"/>
-                </div>
-                <div class = "col-auto">
-                    <br>
-                    <input class="btn btn-secondary" type="submit" name="changeaccess" value="Change Access"/>
-                </div>
-            </form>
-        </tr>
-        
-        
-
-    </table>
-</div> -->
 {% endblock %}

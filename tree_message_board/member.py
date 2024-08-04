@@ -120,7 +120,6 @@ def register():
         birthdate = request.form.get('birthdate')
         location = request.form.get('location')
         
-
         # Check if account exists using MySQL
         cursor = getCursor()
         cursor.execute('SELECT user_id FROM users WHERE username = %s', (username,))
@@ -140,7 +139,6 @@ def register():
             msg = 'Please fill out the form!'
         elif password != repassword:
             msg = 'Passwords do not match!'
-        
         else:
             # Account doesn't exist and the form data is valid, now insert new account into accounts table
             password_hash = hashing.hash_value(password, PASSWORD_SALT)
@@ -151,8 +149,6 @@ def register():
     elif request.method == 'POST':
         # Form is empty... (no POST data)
         msg = 'Please fill out the form!'
-    
-
     # Show registration form with message (if any)
     return render_template('register.html', msg=msg)
 
@@ -162,11 +158,10 @@ def member_home():
     # Check if user is loggedin
     if 'loggedin' in session:
         # User is loggedin show them the home page
-        # Get all the messages in the database
+        # Show all the messages in the database
         cursor = getCursor()
         cursor.execute('SELECT * FROM messages',)
         allMessages = cursor.fetchall()
-        
         return render_template('home.html', username=session['username'], user_role=session['role'],  allmessages= allMessages)
     
     # User is not logged in - redirect to login page
@@ -178,25 +173,18 @@ def member_home():
 @app.route("/view_post", methods=['GET','POST'])
 @app.route("/view_post/<int:messageid>", methods=['GET','POST'])
 def view_post(messageid):
-    print(messageid)
+    
     if 'loggedin' in session:
-        # cursor = getCursor()
-        # cursor.execute("SELECT username FROM messages WHERE message_id = %s;", (int(messageid),))
-        # username = cursor.fetchone()
+        # Gets the all the messages with their corresponding users 
         cursor = getCursor()
         cursor.execute("SELECT * FROM users JOIN messages ON users.user_id = messages.user_id WHERE message_id = %s;", (int(messageid),))
         messageData = cursor.fetchone()
-        
         cursor = getCursor()
-
-        
         cursor.execute("SELECT * FROM replies JOIN users ON replies.user_id = users.user_id WHERE replies.message_id = %s;", (int(messageid),))
         replyData = cursor.fetchall()
         
-        # sql = "SELECT * FROM messages JOIN replies ON messages.message_id = replies.message_id;"
-
-        
         if request.method =='POST'and request.form.get('reply'):
+            #  Get all the required info and input into the reply table
             messageId = request.form.get('messageid')
             messageData = request.form.get('messagedata')
             userId = session['id']
@@ -205,12 +193,7 @@ def view_post(messageid):
             cursor = getCursor()
             cursor.execute("INSERT INTO replies (message_id, user_id, content, created_at) VALUES(%s,%s,%s,%s);",(messageId, userId, content, created_at,))
             usrmsg = "Reply added"
-            # return render_template('view_post.html',messageid=messageId, username=session['username'], user_role=session['role'], messagedata=messageData, replydata=replyData)    
             return render_template('confirmation.html', usrmsg = usrmsg,username=session['username'], user_role=session['role'])
-        
-            
-            
-
         
         return render_template('view_post.html',messageid=messageid, username=session['username'], user_role=session['role'], messagedata=messageData, replydata=replyData)
 
@@ -223,16 +206,15 @@ def view_post(messageid):
 def delete_reply_confirmation(replyid):
     print(replyid)
     if 'loggedin' in session:
-        
+        #Get the reply from the database for confirmation
         cursor = getCursor()
         cursor.execute("SELECT * FROM replies WHERE reply_id = %s;", (int(replyid),))
         replyData = cursor.fetchone()
         if request.method =='POST':
-                         
+            #Delete the reply from the database             
             cursor = getCursor()
             cursor.execute("DELETE FROM replies WHERE reply_id = %s;",(int(replyid),))
             usrmsg = "Reply deleted"
-            # return render_template('view_post.html',messageid=messageId, username=session['username'], user_role=session['role'], messagedata=messageData, replydata=replyData)    
             return render_template('confirmation.html', usrmsg = usrmsg,username=session['username'], user_role=session['role'])
         
         return render_template('delete_reply_confirmation.html', replyid=replyid, username=session['username'], user_role=session['role'], replydata=replyData)
@@ -244,17 +226,16 @@ def delete_reply_confirmation(replyid):
 @app.route("/delete_post_confirmation/<int:messageid>",methods=['GET','POST'])
 def delete_post_confirmation(messageid):
     if 'loggedin' in session:
-        print(messageid)
+        #Get the message from the database for confirmation
         cursor = getCursor()
         cursor.execute("SELECT * FROM messages WHERE message_id = %s;", (int(messageid),))
         messageData = cursor.fetchone()
         if request.method =='POST':
-                         
+            #Delete the post from the database               
             cursor = getCursor()
             cursor.execute("DELETE FROM replies WHERE message_id = %s;",(int(messageid),))
             cursor.execute("DELETE FROM messages WHERE message_id = %s;",(int(messageid),))
             usrmsg = "Post deleted"
-            # return render_template('view_post.html',messageid=messageId, username=session['username'], user_role=session['role'], messagedata=messageData, replydata=replyData)    
             return render_template('confirmation.html', usrmsg = usrmsg,username=session['username'], user_role=session['role'])
         
         return render_template('delete_post_confirmation.html', messageid=messageid, username=session['username'], user_role=session['role'], messagedata=messageData)
@@ -268,18 +249,12 @@ def create_post():
    
     if 'loggedin' in session:
         
-        print(datetime.datetime.now())
-        print(request.method)
         if request.method == "POST":
-            print("increatepost post method")
+            #Get the required data and insert into the message table
             userId = session['id']
             title = request.form.get('title')
             content = request.form.get('content')
             created_at = datetime.datetime.now()
-            print(userId)
-            print(title)
-            print(content)
-            print(created_at)
             cursor = getCursor()
             cursor.execute("INSERT INTO messages (user_id, title, content, created_at) VALUES(%s,%s,%s,%s);",(userId, title, content, created_at,))
             usrmsg = "Post Created"
@@ -291,124 +266,48 @@ def create_post():
 @app.route('/delete_post',methods=['GET','POST'])
 def delete_post():
     if 'loggedin' in session:
+        # Get all the messages and replies of the current user
         cursor = getCursor()
-        cursor.execute("SELECT * FROM messages WHERE user_id = %s;", (int(session['id']),))
+        cursor.execute("SELECT * FROM users JOIN messages ON users.user_id = messages.user_id WHERE messages.user_id = %s;", (int(session['id']),))
         messageData = cursor.fetchall()
         cursor = getCursor()
-        cursor.execute("SELECT * FROM replies WHERE user_id = %s;", (int(session['id']),))
+        cursor.execute("SELECT * FROM replies JOIN users ON replies.user_id = users.user_id WHERE replies.user_id = %s;", (int(session['id']),))
         replyData = cursor.fetchall()
-        print(messageData)
-        print(replyData)
-        # if request.method =='POST':
-        #     messageId = request.form.get('messageid')
-        #     messageData = request.form.get('messagedata')
-        #     userId = session['id']
-        #     content = request.form.get('content')
-        #     created_at = datetime.datetime.now()                
-        #     cursor = getCursor()
-        #     cursor.execute("INSERT INTO replies (message_id, user_id, content, created_at) VALUES(%s,%s,%s,%s);",(messageId, userId, content, created_at,))
-
-        #     # return render_template('view_post.html',messageid=messageId, username=session['username'], user_role=session['role'], messagedata=messageData, replydata=replyData)    
-        #     return render_template('confirmation.html')
         return render_template('delete_post.html', username=session['username'], user_role=session['role'], messagedata=messageData, replydata=replyData)
 
     # User is not logged in - redirect to login page
     return redirect(url_for('login'))
 
-
-
 @app.route('/create_reply',methods=['GET','POST'])
 def create_reply():
-    # print(message_id)
+    
     if 'loggedin' in session:
-        print("increatereply session")
-        
-    #     print(datetime.datetime.now())
-    #     print(request.method)
-    #     if request.method == "POST":
-    #         print("increatepost post method")
-    #         userId = session['id']
-    #         title = request.form.get('title')
-    #         content = request.form.get('content')
-    #         created_at = datetime.datetime.now()
-
-             
-                
-    #             # content = request.form.get('content')
-    #             # created_at = datetime.datetime.now()                
-    #             # cursor = getCursor()
-    #             # cursor.execute("INSERT INTO replies (message_id, user_id, content, created_at) VALUES(%s,%s,%s,%s);",(messageid, userId, content, created_at,))
-    #             # return render_template('view_post.html', messageid=messageid ,username=session['username'], user_role=session['role'])
-    #         print(userId)
-    #         print(title)
-    #         print(content)
-    #         print(created_at)
-    #         cursor = getCursor()
-    #         cursor.execute("INSERT INTO messages (user_id, title, content, created_at) VALUES(%s,%s,%s,%s);",(userId, title, content, created_at,))
-    #         return redirect(url_for('user_home'))
+        # In the view post page
         return render_template('view_post.html',username=session['username'], user_role=session['role'])
     # User is not logged in - redirect to login page
     return redirect(url_for('login'))
 
-# # http://localhost:5000/profile - this will be the profile page, only accessible for loggedin users
-# @app.route('/profile',methods=['GET','POST'])
-# def profile(account=None):
-#     profileImage = os.path.join(app.config["UPLOAD_FOLDER"], "Profile.png")
-
-#     # Check if user is loggedin
-#     if 'loggedin' in session:
-        
-#         # We need all the account info for the user so we can display it on the profile page
-#         cursor = getCursor()
-#         cursor.execute('SELECT user_id, username, email,first_name, last_name, birth_date, location, profile_image, role, status FROM users WHERE user_id = %s', (session['id'],))
-#         account = cursor.fetchone()
-        
-#         if request.method=="POST" and request.form.get("editprofile"):
-#             return render_template('edit_profile.html',account = account, username=session['username'], user_role=session['role'])
-#         elif request.method=="POST" and request.form.get("editpassword"):
-#             return render_template('edit_password.html',account = account, username=session['username'], user_role=session['role'])
-
-#         # Show the profile page with account info
-#         return render_template('profile.html', profileimage =profileImage, account=account, username=session['username'], user_role=session['role'])
-    
-#     # User is not logged in - redirect to login page
-#     return redirect(url_for('login'))
 
 # http://localhost:5000/profile - this will be the profile page, only accessible for loggedin users
 @app.route('/profile',methods=['GET','POST'])
 @app.route('/profile/<int:userid>',methods=['GET','POST'])
 def profile(userid=None):
-    print(userid)
-
-    
-
-
+   
     # Check if user is loggedin
     if 'loggedin' in session:
 
-    #     if userid== None:
-    #     profileImage = os.path.join(app.config["UPLOAD_FOLDER"], "Profile.png")
-    # else:
-        
-
-        
         if userid == None:
             userid = session['id']
 
-            # cursor = getCursor()
-            # cursor.execute('SELECT profile_image FROM users WHERE user_id = %s', (userid,))
-            # image = cursor.fetchone()
-            # print(userid)
-            # print(image)
-            # profileImage = os.path.join(app.config["UPLOAD_FOLDER"], image['profile_image'])
         # We need all the account info for the user so we can display it on the profile page
         cursor = getCursor()
         cursor.execute('SELECT * FROM users WHERE user_id = %s', (userid,))
         account = cursor.fetchone()
         image = account['profile_image']
-           
+        # Set the path to get where the image is coming from   
         profileImage = os.path.join(app.config["UPLOAD_FOLDER"], image)
-
+    
+        #Send the account data to whatever form needs to be updated
         if request.method=="POST" and request.form.get("editprofile"):
             return render_template('edit_profile.html',account = account, username=session['username'], user_role=session['role'])
         elif request.method=="POST" and request.form.get("changepassword"):
@@ -416,6 +315,7 @@ def profile(userid=None):
         elif request.method=="POST" and request.form.get("changeimage"):
             return render_template('change_image.html',account = account, username=session['username'], user_role=session['role'])
         elif request.method=="POST" and request.form.get("removeimage"):
+            #For image removal it's actually setting it back to the default
             cursor = getCursor()
             cursor.execute('UPDATE users SET profile_image = %s WHERE user_id = %s;', (DEFAULT_PROFILE_PICTURE, session['id'],))
             usrmsg="Image Updated"
@@ -424,7 +324,7 @@ def profile(userid=None):
         elif request.method=="POST" and request.form.get("changeaccess"):
             if session['role'] == 'admin':
                 return redirect( url_for('change_access',userid=userid ))
-                # return render_template('change_access.html',account = account, username=session['username'], user_role=session['role'])
+                
             else:
                 return render_template('error.html',account = account, username=session['username'], user_role=session['role'])
         # Show the profile page with account info
@@ -440,30 +340,15 @@ def profileedit():
     # Check if user is loggedin
     if 'loggedin' in session:
         # We need all the account info for the user so we can display it on the profile page
-        # cursor = getCursor()
-        # cursor.execute('SELECT user_id, username, email,first_name, last_name, birth_date, location, profile_image, role, status FROM users WHERE user_id = %s', (session['id'],))
-        # account = cursor.fetchone()
-        
-        print(session['id'])
-        
         if request.method=="POST":        
             email = request.form.get('email')
             firstname = request.form.get('firstname')
             lastname = request.form.get('lastname')
             birthdate = request.form.get('birthdate')
             location = request.form.get('location')
-            
-            print(email)
-            print(firstname)
-            print(lastname)
-            print(birthdate)
-            print(location)
-            
-
+            #Update the profile
             cursor = getCursor()
-             # cursor.execute('SELECT user_id, username, email,first_name, last_name, birth_date, location, profile_image, role, status FROM users WHERE user_id = %s', (session['id'],))
             cursor.execute("UPDATE users SET email = %s, first_name = %s, last_name = %s, birth_date = %s, location = %s WHERE user_id = %s;", (email, firstname, lastname, birthdate, location, session['id'],))
-            # Show the profile page with account info
             usrmsg="Profile Updated"
             return render_template('confirmation.html',usrmsg = usrmsg, username=session['username'], user_role=session['role'])
         return render_template('edit_profile.html', username=session['username'], user_role=session['role'])
@@ -474,11 +359,10 @@ def profileedit():
 @app.route('/password',methods=['GET','POST'])
 def password():
     
-
     # Check if user is loggedin
     if 'loggedin' in session:
         
-        # We need all the account info for the user so we can display it on the profile page
+        # We need all the account info for the user to confirm the saved password
         cursor = getCursor()
         cursor.execute('SELECT password_hash FROM users WHERE user_id = %s', (session['id'],))
         account = cursor.fetchone()
@@ -513,24 +397,15 @@ def image():
 
     # Check if user is loggedin
     if 'loggedin' in session:
-        
-        
-
-        # # We need all the account info for the user so we can display it on the profile page
+         # # We need all the account info for the user so we can display it on the profile page
         if request.method=="POST":
-            
+            #Get the profile image filename only (text)
             newImage = request.form.get('image')
-            # newProfileImage = os.path.join(app.config["UPLOAD_FOLDER"], str(newImage))
             cursor = getCursor()
             cursor.execute('UPDATE users SET profile_image = %s WHERE user_id = %s;', (newImage, session['id'],))
             usrmsg="Image updated"
-
             return render_template('confirmation.html',usrmsg=usrmsg, username=session['username'], user_role=session['role'])
-            
-
-        #     return render_template('confirmation.html',usrmsg=usrmsg, username=session['username'], user_role=session['role'])
-
-        # Show the profile page with account info
+         
         return render_template('change_image.html', username=session['username'], user_role=session['role'])
     
     # User is not logged in - redirect to login page

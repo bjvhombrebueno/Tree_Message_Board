@@ -17,7 +17,7 @@
 -- with the salt 'ExampleSaltValue'.
 -- -----------------------------------------------------
 
-INSERT INTO `users` (`username`, `password_hash`, `email`,`first_name`,`last_name`,`birth_date`,`location`,`profile_image`, `role`,`status`) VALUES
+INSERT INTO `users` (`username`, `password_hash`, `email`,`first_name`,`last_name`,`birth_date`,`location`,`profile_image`,`role`,`status`) VALUES
     ('q', 'c0f5955762c38545329a68b69ca288f78485ed0688d7cb0227085d9387f9ff63', 'user1@example.com','Aurora', 'Hayes','1990-05-03','UK','1','member','active'),
     ('w', '1388054c565184f9ec3fd9c513cab1b462e32cfb4089a22e0de1c6a7ccec49f6', 'user2@example.com','Caleb', 'Brooks','1992-12-01','Auckland','2','member','active'),
     ('a', '1762c21ca0f4a09591f67e584d8eb49eb35b8ecf3a6d1b19283efbe938055334', 'staff1@example.com','Serena', 'Yang','1985-07-23','Melbourne','3','moderator','active'),

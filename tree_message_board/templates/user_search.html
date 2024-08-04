@@ -7,13 +7,9 @@
 
 
 <h2 class="text-center">Search users</h2>
-
-
-
-    
+ <!-- Dropdown box selects what by what option to search for and the page returns the result of the search -->
   <form action="/search" method="POST" class="row needs-validation" novalidate>
-    
-    <div class="container text-center">
+        <div class="container text-center">
         <div class = "row justify-content-center">
           <div class="col-auto">
             <label for="dropdown">Search by:</label>
@@ -23,8 +19,6 @@
               <option value="username" >Username</option>
             </select>
           </div>
-          
-
             <div class="col-auto">
                 <input type="text" class="form-control" name="searchstring" required/>
                 <div class="invalid-feedback">
@@ -36,7 +30,6 @@
             </div>
         </div>
     </div>
-    
 </form>
     
 {% if request.method=="POST" %}
@@ -60,7 +53,7 @@
                             <th>Email Address</th>
                         </div>
                         <div class = "col-auto">
-                            <th>Go to Customer Home Page</th>
+                            <th>Go to User Home Page</th>
                         </div>
                     </tr>
                 </thead>

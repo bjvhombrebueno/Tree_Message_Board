@@ -3,7 +3,8 @@
 {% block title %}Edit Profile{% endblock %}
 
 {% block content %}
-<form action="{{url_for('profileedit')}}" method="post" autocomplete="off">
+<!-- Gets all the required data for profile update, preset with existing user data -->
+<form action="{{url_for('profileedit')}}" method="post" autocomplete="off" novalidate>
 	<div class="container text-center">
 		<div class = "row justify-content-center">
 			<div class="col-auto">
@@ -12,45 +13,36 @@
 				<div class="invalid-feedback">
 					Please enter valid username
 				</div>  
-			
 				<label for="email" class="form-label">Email Address: </label><br>
 				<input name="email" type="email" id="typeEmail" class="form-control" {% if account %} value="{{account['email']}}" {% endif %}  pattern="^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required/>
 				<div class="invalid-feedback">
-				Please enter valid email address
+					Please enter valid email address
 				</div>  
-			
 				<label for="firstname" class="form-label">First name: </label><br>
 				<input type="text" class="form-control" name="firstname" {% if account %} value="{{account['first_name']}}" {% endif %} pattern= "(^[a-zA-Z][a-zA-Z\s]{0,50}[a-zA-Z]$)" required />
 				<div class="invalid-feedback">
 					Please enter valid first name
 				</div>  
-			
 				<label for="lastname" class="form-label">Last name: </label><br>
 				<input type="text" class="form-control" name="lastname" {% if account %} value="{{account['last_name']}}" {% endif %} pattern="(^[a-zA-Z][a-zA-Z\s]{0,50}[a-zA-Z]$)" required />
 				<div class="invalid-feedback">
 					Please enter valid last name
 				</div>  
-			
 				<label for="birthdate" class="form-label">Birthdate: </label><br>
 				<input name="birthdate" type="date" class="form-control" {% if account %} value="{{account['birth_date']}}" {% endif %} required/>
 				<div class="invalid-feedback">
-				Please enter valid date
+					Please enter valid date
 				</div>  
-			
 				<label for="location" class="form-label">Location: </label><br>
 				<input type="text" class="form-control" name="location" {% if account %} value="{{account['location']}}" {% endif %} pattern="(^[a-zA-Z][a-zA-Z\s]{0,50}[a-zA-Z]$)" required />
 				<div class="invalid-feedback">
 					Please enter valid location name
 				</div>  
-			
 				<br>
 				<input class="btn btn-secondary" type="submit" name="Update profile" value="Update Profile"/>
 			</div>
-			
 		</div>
-		
 	</div>
-
 </form>
 
 {% endblock %}

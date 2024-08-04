@@ -50,15 +50,10 @@ def getCursor():
     
     return cursor
 
-
-
-
-
 @app.route('/moderator/home', methods=['GET','POST'])
 def moderator_home():
     # Check if user is loggedin
     if 'loggedin' in session:
-        
         if session['role'] == 'moderator':
             # User is loggedin show them the home page and role is moderator
             cursor = getCursor()

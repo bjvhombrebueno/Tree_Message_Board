@@ -5,35 +5,14 @@
 {% block content %}
 <h2>Member Home</h2>
 <p>Welcome back, {{ username }}!</p>
-  
-
-
-
-
-    {% for message in allmessages %}
-
-  
-  
-    
-    
-        
-  
-      
-       
-      
-      
-  
-        
+  <!-- Displays all the messages in the database -->
+  {% for message in allmessages %}
         <div class ="col-md-6 ">
-          
           <td><a href="/view_post/{{message['message_id']}}" type="button" class="btn btn-secondary">{{message['title']}}</a></td>
         </div>
         <div class ="col-auto ">
           <p class="text-md-start">{{message['content']}}</p>
         </div>
-
-      
-   
-    {% endfor %}
+    {% endfor %}  
 
 {% endblock %}
