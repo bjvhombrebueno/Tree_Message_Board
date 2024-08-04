@@ -184,12 +184,16 @@ def view_post(messageid):
         # cursor.execute("SELECT username FROM messages WHERE message_id = %s;", (int(messageid),))
         # username = cursor.fetchone()
         cursor = getCursor()
-        cursor.execute("SELECT * FROM messages WHERE message_id = %s;", (int(messageid),))
+        cursor.execute("SELECT * FROM users JOIN messages ON users.user_id = messages.user_id WHERE message_id = %s;", (int(messageid),))
         messageData = cursor.fetchone()
+        
         cursor = getCursor()
-        cursor.execute("SELECT * FROM replies WHERE message_id = %s;", (int(messageid),))
+
+        
+        cursor.execute("SELECT * FROM replies JOIN users ON replies.user_id = users.user_id WHERE replies.message_id = %s;", (int(messageid),))
         replyData = cursor.fetchall()
-        sql = "SELECT * FROM messages JOIN replies ON messages.message_id = replies.message_id;"
+        
+        # sql = "SELECT * FROM messages JOIN replies ON messages.message_id = replies.message_id;"
 
         
         if request.method =='POST'and request.form.get('reply'):
@@ -203,16 +207,10 @@ def view_post(messageid):
             usrmsg = "Reply added"
             # return render_template('view_post.html',messageid=messageId, username=session['username'], user_role=session['role'], messagedata=messageData, replydata=replyData)    
             return render_template('confirmation.html', usrmsg = usrmsg,username=session['username'], user_role=session['role'])
-        if request.method =='POST'and request.form.get('delete'):
+        
             
-            cursor = getCursor()
-            cursor.execute("DELETE FROM replies WHERE message_id = %s;",(int(messageid),))            
-            cursor = getCursor()
-            cursor.execute("DELETE FROM messages WHERE message_id = %s;",(int(messageid),))
             
-            usrmsg = "Post deleted"
-            # return render_template('view_post.html',messageid=messageId, username=session['username'], user_role=session['role'], messagedata=messageData, replydata=replyData)    
-            return render_template('confirmation.html', usrmsg = usrmsg,username=session['username'], user_role=session['role'])
+
         
         return render_template('view_post.html',messageid=messageid, username=session['username'], user_role=session['role'], messagedata=messageData, replydata=replyData)
 
