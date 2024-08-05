@@ -8,7 +8,10 @@
 	
 	<div class="container text-center">
 		<div class = "row justify-content-center">
-			<h2 class="text-center text-white">{{usrmsg}}</h2>
+			<h2 class="text-center text-white">Edit Profile</h2>
+			<br>
+			<br>
+			<h4 class="text-center text-white">{{usrmsg}}</h4>
 			<div class="col-auto">
 				<label for="username" class="form-label text-white">Username: </label><br>
 				<input type="text" class="form-control" name="username" {% if account %} value="{{account['username']}}" {% endif %} readonly />
