@@ -49,6 +49,64 @@ def getCursor():
     
     return cursor
 
+
+def is_valid_username(username):
+    # Check if username matches the format
+    if not re.search(r"(^[a-zA-Z0-9][a-zA-Z0-9]{0,20}[a-zA-Z0-9]$)", username):
+        return False
+    return True
+
+def is_valid_password(password):
+    # Check if password matches the format
+    if not re.search(r"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^A-Za-z0-9]).{8,}$", password):
+        return False
+    return True
+
+def is_valid_email(email):
+    # Check if email matches the format
+    if not re.match(r"^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$", email):
+        return False
+    return True
+
+def is_valid_firstname(firstname):
+    # Check if firstname matches the format
+    if not re.search(r"(^[a-zA-Z][a-zA-Z\s]{0,50}[a-zA-Z]$)", firstname):
+        return False
+    return True
+
+def is_valid_lastname(lastname):
+    # Check if lastname matches the format
+    if not re.search(r"(^[a-zA-Z][a-zA-Z\s]{0,50}[a-zA-Z]$)", lastname):
+        return False
+    return True
+
+def is_valid_birthdate(birthdate):
+    # Check if date matches the format
+    format = "%Y-%m-%d"
+    
+    try:
+        res = bool(datetime.datetime.strptime(birthdate, format))
+    except ValueError:
+        res = False
+
+    if res == False:
+        return False
+    return True
+
+def is_valid_location(location):
+    # Check if location matches the format
+    if not re.search(r"(^[a-zA-Z][a-zA-Z\s]{0,50}[a-zA-Z]$)", location):
+        return False
+    return True
+
+def is_valid_title(title):
+    # Check if title matches the format
+    if not re.search(r"(^[a-zA-Z][a-zA-Z\s]{0,255}[a-zA-Z]$)", title):
+        return False
+    return True
+
+
+
 # http://localhost:5000/login/ - this will be the login page, we need to use both GET and POST requests
 @app.route('/')
 @app.route('/login/', methods=['GET', 'POST'])
@@ -108,8 +166,8 @@ def register():
     # Output message if something goes wrong...
     msg = ''
 
-    # Check if "username", "password" and "email" POST requests exist (user submitted form)
-    if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form:
+    # Check if all the inputs in the POST requests exist (user submitted form)
+    if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'repassword' in request.form and'email' in request.form and 'firstname' in request.form and 'lastname' in request.form and 'birthdate' in request.form and 'location' in request.form:
         # Create variables for easy access
         username = request.form.get('username')
         password = request.form.get('password')
@@ -120,13 +178,39 @@ def register():
         birthdate = request.form.get('birthdate')
         location = request.form.get('location')
         
-        # Check if account exists using MySQL
-        cursor = getCursor()
-        cursor.execute('SELECT user_id FROM users WHERE username = %s', (username,))
-        account = cursor.fetchone()
 
-        #Check password for character types
-        pattern = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^A-Za-z0-9]).{8,}$"
+        if not is_valid_username(username):
+            msg = 'Invalid username, can only contain letters and numbers'
+            return render_template('register.html', msg=msg)
+        elif not is_valid_password(password):
+            msg = "Passwords should be at least 8 characters with 1 uppercase character 1 lowercase character 1 number and 1 special character"
+            return render_template('register.html', msg=msg)
+        elif not is_valid_password(repassword):
+            msg = "Passwords should be at least 8 characters with 1 uppercase character 1 lowercase character 1 number and 1 special character"
+            return render_template('register.html', msg=msg)
+        elif not is_valid_email(email):
+            msg = "Invalid email, please check format"
+            return render_template('register.html', msg=msg)
+        elif not is_valid_firstname(firstname): 
+            msg = "Invalid first name, should only be letters or spaces only"
+            return render_template('register.html', msg=msg)
+        elif not is_valid_lastname(lastname):
+            msg = "Invalid last name, should only be letters or spaces only"
+            return render_template('register.html', msg=msg)
+        elif not is_valid_birthdate(birthdate):
+            msg = "Invalid date, should dd/mm/yyyy format"
+            return render_template('register.html', msg=msg)
+        elif not is_valid_location(location):
+            msg = "Invalid location, should only be letters or spaces only"
+            return render_template('register.html', msg=msg)
+        else:
+            
+        
+
+        # Check if account exists using MySQL
+            cursor = getCursor()
+            cursor.execute('SELECT user_id FROM users WHERE username = %s', (username,))
+            account = cursor.fetchone()
 
         # If account exists show error and validation checks
         if account:
@@ -139,6 +223,7 @@ def register():
             msg = 'Please fill out the form!'
         elif password != repassword:
             msg = 'Passwords do not match!'
+
         else:
             # Account doesn't exist and the form data is valid, now insert new account into accounts table
             password_hash = hashing.hash_value(password, PASSWORD_SALT)
@@ -255,9 +340,12 @@ def create_post():
             title = request.form.get('title')
             content = request.form.get('content')
             created_at = datetime.datetime.now()
-            cursor = getCursor()
-            cursor.execute("INSERT INTO messages (user_id, title, content, created_at) VALUES(%s,%s,%s,%s);",(userId, title, content, created_at,))
-            usrmsg = "Post Created"
+            if not is_valid_title(title):
+                usrmsg = "Invalid title"
+            else:
+                cursor = getCursor()
+                cursor.execute("INSERT INTO messages (user_id, title, content, created_at) VALUES(%s,%s,%s,%s);",(userId, title, content, created_at,))
+                usrmsg = "Post Created"
             return render_template('confirmation.html', usrmsg = usrmsg,username=session['username'], user_role=session['role'])
         return render_template('create_post.html',username=session['username'], user_role=session['role'])
     # User is not logged in - redirect to login page
@@ -345,12 +433,30 @@ def profileedit():
             firstname = request.form.get('firstname')
             lastname = request.form.get('lastname')
             birthdate = request.form.get('birthdate')
+            print(birthdate)
             location = request.form.get('location')
+            
+            #validation checks:
+            if not is_valid_email(email):
+                usrmsg = "Invalid email, please check the format"
+                    
+            elif not is_valid_firstname(firstname): 
+                usrmsg = "Invalid first name, should only be letters or spaces only"
+            elif not is_valid_lastname(lastname):
+                usrmsg = "Invalid last name, should only be letters or spaces only"
+            elif not is_valid_birthdate(birthdate):
+                usrmsg = "Invalid date, should yyyy/mm/dd format"
+            elif not is_valid_location(location):
+                usrmsg = "Invalid location, should only be letters or spaces only"
             #Update the profile
-            cursor = getCursor()
-            cursor.execute("UPDATE users SET email = %s, first_name = %s, last_name = %s, birth_date = %s, location = %s WHERE user_id = %s;", (email, firstname, lastname, birthdate, location, session['id'],))
-            usrmsg="Profile Updated"
+            # elif is_valid_email(email) and is_valid_firstname(firstname) and not is_valid_lastname(lastname) and is_valid_birthdate(birthdate) and is_valid_location(location):
+            else:
+                cursor = getCursor()
+                cursor.execute("UPDATE users SET email = %s, first_name = %s, last_name = %s, birth_date = %s, location = %s WHERE user_id = %s;", (email, firstname, lastname, birthdate, location, session['id'],))
+                usrmsg="Profile Updated"
+            
             return render_template('confirmation.html',usrmsg = usrmsg, username=session['username'], user_role=session['role'])
+            
         return render_template('edit_profile.html', username=session['username'], user_role=session['role'])
     
     # User is not logged in - redirect to login page
@@ -373,7 +479,10 @@ def password():
             oldPassword_hash = hashing.hash_value(oldPassword, PASSWORD_SALT)
             newPassword = request.form.get('newpassword')
             newPassword_hash = hashing.hash_value(newPassword, PASSWORD_SALT)
-            if dbPassword_hash != oldPassword_hash:
+            if not (is_valid_password(oldPassword) or is_valid_password(newPassword)):
+                usrmsg = "Passwords should be at least 8 characters with 1 uppercase character 1 lowercase character 1 number and 1 special character"
+
+            elif dbPassword_hash != oldPassword_hash:
                 usrmsg="Old password does not match saved password, please change" 
             elif dbPassword_hash == oldPassword_hash and oldPassword_hash == newPassword_hash:
                 usrmsg="Old and new passwords cannot be the same, please change"

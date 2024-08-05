@@ -13,44 +13,44 @@
 		<div class="register">
 			<h1 class="text-center">Register</h1>
 						
-			<form action="{{ url_for('register') }}" method="post" autocomplete="off">
+			<form action="{{ url_for('register') }}" method="post" novalidate>
 				<!-- Gets the user's data for registration -->
 				<h4 class="text-center">{{ msg }}</h4>
 				<div class="container text-center">
 					<div class = "row justify-content-center">
 						<div class="col-auto">
 							<label for="username" class="form-label">Username: </label><br>
-							<input type="text" class="form-control" name="username"  pattern= "(^[a-zA-Z][a-zA-Z\s]{0,20}[a-zA-Z]$)" required />
+							<input type="text" class="form-control" name="username"   required />
 							<div class="invalid-feedback">
 								Please enter valid username
 							</div>  
 						
 							<label for="password" class="form-label">Password: </label><br>
-							<input type="text" class="form-control" name="password"  pattern = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^A-Za-z0-9]).{8,}$" required />
+							<input type="password" class="form-control" name="password"   required />
 							<div class="invalid-feedback">
 								Please enter valid password
 							</div>
 
 							<label for="repassword" class="form-label">Re-enter Password: </label><br>
-							<input type="text" class="form-control" name="repassword"  pattern= "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^A-Za-z0-9]).{8,}$" required />
+							<input type="password" class="form-control" name="repassword"   required />
 							<div class="invalid-feedback">
 								Please enter valid password
 							</div>  
 						
 							<label for="email" class="form-label">Email Address: </label><br>
-							<input name="email" type="email" id="typeEmail" class="form-control"  pattern="^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required/>
+							<input name="email" type="email" id="typeEmail" class="form-control"  required/>
 							<div class="invalid-feedback">
 							Please enter valid email address
 							</div>  
 						
 							<label for="firstname" class="form-label">First name: </label><br>
-							<input type="text" class="form-control" name="firstname"  pattern= "(^[a-zA-Z][a-zA-Z\s]{0,50}[a-zA-Z]$)" required />
+							<input type="text" class="form-control" name="firstname"  required />
 							<div class="invalid-feedback">
 								Please enter valid first name
 							</div>  
 						
 							<label for="lastname" class="form-label">Last name: </label><br>
-							<input type="text" class="form-control" name="lastname"  pattern="(^[a-zA-Z][a-zA-Z\s]{0,50}[a-zA-Z]$)" required />
+							<input type="text" class="form-control" name="lastname"   required />
 							<div class="invalid-feedback">
 								Please enter valid last name
 							</div>  
@@ -62,7 +62,7 @@
 							</div>  
 						
 							<label for="location" class="form-label">Location: </label><br>
-							<input type="text" class="form-control" name="location"  pattern="(^[a-zA-Z][a-zA-Z\s]{0,50}[a-zA-Z]$)" required />
+							<input type="text" class="form-control" name="location"  required />
 							<div class="invalid-feedback">
 								Please enter valid location name
 							</div>  

@@ -1,0 +1,61 @@
+{% extends 'layout.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<h2 class="text-center">Profile Page</h2>
+   
+<!-- Shows the user's data -->
+<div class="container text-center">
+    <div class = "row justify-content-center">
+        
+        <div class = "col-auto">
+            <table>
+                <tr>
+                    <td>Username:</td>
+                    <td>{{ account['username'] }}</td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td>{{ account['email'] }}</td>
+                </tr>
+                <tr>
+                    <td>First Name:</td>
+                    <td>{{ account['first_name'] }}</td>
+                </tr>
+                <tr>
+                    <td>Last Name:</td>
+                    <td>{{ account['last_name'] }}</td>
+                </tr>
+                <tr>
+                    <td>Birth Date:</td>
+                    <td>{{ account['birth_date'] }}</td>
+                </tr>
+                <tr>
+                    <td>Location:</td>
+                    <td>{{ account['location'] }}</td>
+                </tr>
+                <tr>
+                    <td>Profile Image:</td>
+                    <td>{{ account['profile_image'] }}</td>
+                </tr>
+                <tr>
+                    <td>Role:</td>
+                    <td>{{ account['role'] }}</td>
+                </tr>
+                <tr>
+                    <td>Status:</td>
+                    <td>{{ account['status'] }}</td>
+                </tr>
+                <tr>
+        </div>
+        
+    </div>
+    
+     
+        
+    
+    
+</div>
+
+{% endblock %}

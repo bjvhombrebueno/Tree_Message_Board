@@ -1,41 +1,64 @@
--- USE loginexample;
-
--- -----------------------------------------------------
--- Create Example Users
--- -----------------------------------------------------
--- User passwords are all just the username with "pass" appended:
---
--- User     Password
--- ------   --------
--- user1    user1pass
--- user2    user2pass
--- staff1   staff1pass
--- staff2   staff2pass
--- admin1   admin1pass
---
--- Hashes were generated using the included password_hash_generator.py script,
--- with the salt 'ExampleSaltValue'.
--- -----------------------------------------------------
 
 INSERT INTO `users` (`username`, `password_hash`, `email`,`first_name`,`last_name`,`birth_date`,`location`,`profile_image`,`role`,`status`) VALUES
-    ('q', 'c0f5955762c38545329a68b69ca288f78485ed0688d7cb0227085d9387f9ff63', 'user1@example.com','Aurora', 'Hayes','1990-05-03','UK','1','member','active'),
-    ('w', '1388054c565184f9ec3fd9c513cab1b462e32cfb4089a22e0de1c6a7ccec49f6', 'user2@example.com','Caleb', 'Brooks','1992-12-01','Auckland','2','member','active'),
-    ('a', '1762c21ca0f4a09591f67e584d8eb49eb35b8ecf3a6d1b19283efbe938055334', 'staff1@example.com','Serena', 'Yang','1985-07-23','Melbourne','3','moderator','active'),
-    ('s', 'cdd02df61b7560b474935c00e0bfcba3905a99d2246f3060083d120df677132f', 'staff2@example.com','Declan', 'Ramirez','1989-04-05','Manila','4','moderator','active'),
-    ('z', '8764663dced6e67a402365383654a427c5eb0cdf6f6428c0496c6d463b15cf08', 'admin1@example.com','Maya', 'Patel','2004-10-12','Spain','5','admin','active' );
+    ('admin1', '4e697b182dafcc124ad5d2c532724450fec45e85b1a679112767ed39839a0677', 'admin1@test.com','Liam', 'Smith','2002-11-28','UK','profile.png','admin','active'),
+    ('admin2', 'f50aeada10fc3776c2e30f599f68417d822c9e593c2ef8739a4819a1fd2a39ce', 'admin2@test.com','Emma', 'Johnson','2002-11-28','Paris','profile.png','admin','active'),
+    ('mod1', '80f7c33849c584fa8187082904de251cf4e58dcdd1e919efc4879d7b168e0943', 'mod1@test.com','Noah', 'Williams','2001-07-04','Tokyo','profile.png','moderator','active'),
+    ('mod2', '0365568c62dd9aba304f13868afbe6eb4c11fe64e5bfb6cec325b5bb9108048b', 'mod2@test.com','Olivia', 'Jones','2000-03-12','Sydney','profile.png','moderator','active'),
+    ('mod3', '647f11f61b43bb12602e0d3356642a2686a2bcd2ccbc7b041d00b2e6e0504a2b', 'mod3@test.com','Ava', 'Brown','1999-09-29','London','profile.png','moderator','active'),
+    ('mod4', '233a698224552a089206cdaefabcf2997d5fc2e5a6b3e68fddd804dae7cab9a9', 'mod4@test.com','Elijah', 'Davis','1998-06-07','Toronto','profile.png','moderator','active'),
+    ('mod5', '9115fae4ff470ba51c682a63540ca1387021f978f9c682bd942d5cf1e1257e62', 'mod5@test.com','Sophia', 'Miller','1997-12-18','Rome','profile.png','moderator','active'),
+    ('user1', '3da6ffb8d2439cb49702b5c322e7f1bf2f9bb59698e8b1c0de53963474fb2162', 'user1@test.com','James', 'Wilson','1996-05-22','Berlin','profile.png','member','active'),
+    ('user2', '746f898db95fb316a7b3b4cd13f572889f6eaeaaa69f1b24434a38fe114d1aa2', 'user2@test.com','Isabella', 'Moore','1995-08-30','Cape Town','profile.png','member','active'),
+    ('user3', '1b404f99c119b09028a30d5000d5c1f30d8737cdbb1b6cbb4441fbbcc8d0cfca', 'user3@test.com','Lucas', 'Taylor','1994-01-11','Rio de Janeiro','profile.png','member','active'),
+    ('user4', 'd68ee41bb1fa3ae392ea916cb9321ca820a8bfe87087660c44104090413cc281', 'user4@test.com','Mia', 'Anderson','1993-10-23','Dubai','profile.png','member','active'),
+    ('user5', '2b48db893597b674dfeafdae94ff822e6946032edccf9cdf784141d742b9283f', 'user5@test.com','Mason', 'Thomas','1992-04-05','Shanghai','profile.png','member','active'),
+    ('user6', '0261e0e7a24a8845fad2257a18cb18d8956854e014ce61b1f5db11e1a84803f8', 'user6@test.com','Charlotte', 'Jackson','1991-07-17','Moscow','profile.png','member','active'),
+    ('user7', '92bdd0fd1d76c246efbde149ef693490df5d77efe96677fa4e33d506159ec42b', 'user7@test.com','Ethan', 'White','1990-02-09','Mexico City','profile.png','member','active'),
+    ('user8', '274bfb0a0ba1f208e946f358dc50feefccf60e5e6b7a939fc9a4b3f8df19e32e', 'user8@test.com','Amelia', 'Harris','1989-11-27','Istanbul','profile.png','member','active'),
+    ('user9', 'df91b869efd73edf22286609d58671574573ccf5ee4a2afed4f10ed9dca4cc3c', 'user9@test.com','Oliver', 'Martin','1988-08-14','Bangkok','profile.png','member','active'),
+    ('user10', 'dd90cead024ffe312664484fdc2f39b1a6f9a1452fc758cb89d65367eed07405', 'user10@test.com','Harper', 'Thompson','1987-12-06','Buenos Aires','profile.png','member','active'),
+    ('user11', '96170974a601316d473bc98040c7595c458bcb1bae5453f6ede91b01b0138933', 'user11@test.com','William', 'Garcia','1986-03-19','Seoul','profile.png','member','active'),
+    ('user12', '573039369131a16bf7b840fd1d290dc17655a2c3736260a96deaef06a236513c', 'user12@test.com','Ella', 'Martinez','1985-09-25','Madrid','profile.png','member','active'),
+    ('user13', 'e22c2971b4e32cd1d009ca11097d412f19435e038e3bdb5748c9b72b01054871', 'user13@test.com','Benjamin', 'Robinson','1984-10-02','Lisbon','profile.png','member','active'),
+    ('user14', '78b6ecc2c116ae90df06dfcff20550108da6d1ec2cce5e229e29a539388c61b0', 'user14@test.com','Chloe', 'Clark','2003-03-14','Athens','profile.png','member','active'),
+    ('user15', 'a3f78d9d48b1fd5b1e9d364896604952bb10c0a33f8841aca11105a8af2d8cd8', 'user15@test.com','Jacob', 'Rodriguez','2002-06-25','Hong Kong','profile.png','member','active'),
+    ('user16', 'e74fb33bd69cfe85a348efe5551f5017646fae6c914db594cf6c554afb299be3', 'user16@test.com','Grace', 'Lewis','2001-11-09','Vienna','profile.png','member','active'),
+    ('user17', '43dc39bea019428f3c465cb394de367c8569ee46edec6654a874aaa186fa03e9', 'user17@test.com','Michael', 'Walker','2000-02-19','Nairobi','profile.png','member','active'),
+    ('user18', 'b3cd2d0e0a30d5e7bc20654f80014b508e3120047f9f711afb085bd32d0769ee', 'user18@test.com','Sofia', 'Allen','1999-07-30','Auckland','profile.png','member','active'),
+    ('user19', 'aa083bb1fd8ed874acc31e892cbe32f9d945f07f1ce39eca82c4fb1ac83933b1', 'user19@test.com','Alexander', 'Young','1998-05-11','Zurich','profile.png','member','active'),
+    ('user20', '394a32a3021b665524507b6979ffc6661a8621d2914e00cb67e013e47c878ea1', 'user20@test.com','Avery', 'King','1997-12-21','Singapore','profile.png','member','active');
 
 INSERT INTO `messages` (`user_id`,`title`,`content`,`created_at`) VALUES 
-('1', 'The Healing Power of Forest Bathing', 'Immersing oneself in the serene embrace of a forest, known as forest bathing or shinrin-yoku, offers more than just a scenic retreat. Scientific studies have shown that spending time among trees can lower stress levels, boost immune function, and improve overall well-being. Whether you prefer the towering redwoods of California or the ancient beech forests of Europe, each tree-filled sanctuary provides a therapeutic escape from the bustle of daily life. Share your favorite forest bathing experiences and discover the rejuvenating effects of natures embrace.','2024-07-17 10:15:00'),
-('2', 'Urban Jungle: Maximizing Green Spaces in Cities', 'In the concrete jungles of our urban landscapes, trees play a crucial role in creating livable environments. Beyond their aesthetic appeal, urban trees mitigate air pollution, reduce heat island effects, and enhance community well-being. From community tree planting initiatives to innovative rooftop gardens, explore how cities around the world are integrating green spaces into their infrastructure. Join the conversation on sustainable urban development and share your ideas for transforming cities into healthier, more vibrant spaces through strategic tree planting and preservation efforts.','2024-07-18 16:30:45'),
-('3', 'Heritage Trees: Guardians of Our Natural History', 'Every tree tells a story, but heritage trees embody a living connection to our past. These majestic giants have witnessed centuries of change and hold cultural significance for communities worldwide. Whether its the ancient baobabs of Africa, the sacred oaks of Europe, or the towering sequoias of North America, heritage trees inspire awe and reverence. Share your encounters with these living monuments, discuss conservation efforts, and celebrate the legacy of heritage trees in preserving our natural and cultural heritage for future generations.','2024-07-19 08:00:20'),
-('4', 'Trees and Wildlife: Creating Habitat Havens', 'From the treetops to the forest floor, trees provide essential habitats for a diverse array of wildlife. Birds nest among their branches, squirrels scurry up their trunks, and insects find refuge in their bark. Explore the intricate web of life that depends on trees for survival and discuss conservation strategies to protect these vital ecosystems. Whether you are passionate about birdwatching, biodiversity conservation, or simply enjoy observing natures interactions, share your experiences and insights into the critical role trees play in sustaining wildlife populations worldwide.','2024-07-20 12:45:10'),
-('5', 'Climate Change and Trees: Partners in Resilience', 'As our planet faces the challenges of climate change, trees emerge as powerful allies in mitigating its effects. Through carbon sequestration, trees help reduce greenhouse gas concentrations in the atmosphere, while their extensive root systems stabilize soil and prevent erosion. Discuss the role of reforestation initiatives, sustainable forestry practices, and agroforestry in combating climate change and promoting environmental resilience. Share success stories, explore innovative solutions, and advocate for policies that prioritize the protection and restoration of our global forest ecosystems.','2024-07-21 23:59:59')
-;
+('1','The Majesty of Ancient Trees','Ancient trees like the Bristlecone Pine in California are living relics, with some specimens dating back over 5,000 years. These trees not only provide a link to the past but also show the resilience of nature against the test of time. Their survival through harsh climates and changing environments is a testament to their strength and adaptability.','2024-01-10 14:23:00'),
+('2', 'Trees and Climate Change: A Vital Connection','Trees play a crucial role in combating climate change by absorbing carbon dioxide from the atmosphere. They help mitigate global warming and create a more stable climate. Forests act as carbon sinks, storing carbon and releasing oxygen, making them essential allies in our fight against climate change.','2024-02-15 09:15:30'),
+('4','The Benefits of Urban Trees','Urban trees are more than just decorative elements in city landscapes; they provide significant benefits such as reducing heat island effects, improving air quality, and offering shade. They also contribute to the mental well-being of city dwellers by providing green spaces for relaxation and recreation.','2024-03-22 16:45:00'),
+('7','The Role of Trees in Biodiversity','Trees support a myriad of species, from insects to birds, by providing habitat and food. Forest ecosystems are among the most biodiverse areas on the planet, with trees acting as keystone species that maintain ecological balance and support a variety of life forms.','2024-04-05 07:30:45'),
+('6','The Healing Power of Forests','Spending time in forests, often referred to as “forest bathing,” has been shown to reduce stress, lower blood pressure, and improve overall mental health. The tranquil environment of a forest offers a natural remedy for modern-day stressors, promoting relaxation and well-being.','2024-05-18 12:00:00'),
+('20','The Science of Tree Growth','Trees exhibit fascinating growth patterns that are influenced by their environment, genetics, and age. Understanding the science behind tree growth, including the roles of xylem and phloem in nutrient transport, helps us appreciate the complexity and vitality of these organisms.','2024-06-25 18:22:30'),
+('24','Trees and Their Role in Water Management','Trees play an essential role in managing water resources. Their roots help prevent soil erosion, and they enhance groundwater recharge by allowing rainwater to seep into the ground. By maintaining healthy tree cover, we can help ensure more effective water management in both urban and rural areas.','2024-07-30 23:59:59'),
+('19','The History of Tree Planting Traditions','Many cultures have long-standing traditions involving tree planting. From ancient rituals to modern-day environmental initiatives, tree planting is celebrated as a way to honor nature, promote growth, and ensure a legacy for future generations.','2024-08-12 06:12:00'),
+('16','How Trees Improve Soil Health','Trees contribute to soil health through the process of nutrient cycling. Their fallen leaves decompose and enrich the soil, providing essential nutrients for other plants. Additionally, tree roots help to aerate the soil and improve its structure, making it more fertile and resilient.','2024-09-20 20:10:05'),
+('23','The Diversity of Tree Species Around the World','The world boasts an incredible diversity of tree species, from towering sequoias to tiny bonsais. Each species has adapted to its unique environment, showcasing the remarkable variety of forms and functions that trees can exhibit across different climates and landscapes.','2024-10-15 15:25:00'),
+('16','Trees and Wildlife Conservation','Trees are integral to wildlife conservation efforts. They provide shelter, food, and breeding grounds for countless species. By conserving forests and planting trees, we support wildlife populations and contribute to the preservation of biodiversity.','2024-11-10 00:00:00'),
+('8','The Impact of Deforestation','Deforestation poses significant threats to global ecosystems, leading to habitat loss, reduced biodiversity, and increased carbon emissions. Addressing deforestation requires concerted efforts to balance development with environmental stewardship and promote sustainable practices.','2024-12-01 17:30:30'),
+('15','The Importance of Tree Roots','Tree roots are vital for stability and nutrient uptake. They anchor trees in the soil, help prevent erosion, and absorb water and minerals. Understanding root systems is crucial for both managing forests and ensuring healthy growth in urban landscaping.','2024-01-22 08:45:15'),
+('5','The Cultural Significance of Trees','Trees have been symbols of strength, wisdom, and renewal in various cultures throughout history. They often feature in folklore, religion, and art, reflecting their deep-seated significance in human culture and our relationship with nature.','2024-02-28 12:00:00'),
+('3','The Future of Tree Conservation','The future of tree conservation involves innovative approaches like reforestation, sustainable forestry, and urban greening projects. By embracing these strategies, we can work towards a healthier planet and ensure that future generations can enjoy the benefits of trees.','2024-03-07 18:30:00'),
+('11','Trees in Art and Literature','Trees have inspired countless works of art and literature, symbolizing various themes such as life, growth, and change. Their presence in creative expressions highlights the profound impact they have on human imagination and cultural narratives.','2024-04-22 07:00:00'),
+('17','The Benefits of Fruit Trees','Fruit trees provide both aesthetic and practical benefits. They offer delicious, fresh produce, enhance garden landscapes, and can even support local ecosystems by attracting pollinators and wildlife.','2024-05-29 23:59:59'),
+('22','The Evolution of Trees','The evolution of trees spans hundreds of millions of years, with their development reflecting changes in the Earths climate and ecosystems. Studying tree evolution helps us understand how these vital organisms have adapted and survived through various geological eras.','2024-06-14 12:00:00'),
+('26','The Art of Tree Pruning', 'Tree pruning is both an art and a science, involving techniques to maintain tree health, shape growth, and ensure safety. Proper pruning practices can enhance the beauty of trees and prolong their lifespan while preventing potential hazards.','2024-07-04 14:40:00'),
+('25','The Significance of Tree Rings','Tree rings offer valuable insights into a trees age and the climatic conditions it has experienced throughout its life. By examining these rings, scientists can study past climate patterns, ecological changes, and even historical events.','2024-08-19 16:30:30');
 
-INSERT INTO `replies` (`message_id`,`user_id`,`content`,`created_at`) VALUES 
-('1', '2', 'Yeah', '2024-07-17 15:30:00'),
-('1', '1', 'nAh', '2024-07-18 09:45:00'),
-('2', '3', 'oWZ', '2024-07-19 12:00:00'),
-('4', '5', 'Nein', '2024-07-20 17:20:00'),
-('1', '5', 'Si', '2024-07-21 20:00:00')
-;
+
+INSERT INTO `replies` (`message_id`,`user_id`,`content`,`created_at`) VALUES
+('1','5','Its amazing to think that these trees have witnessed so much history. It makes me wonder about the stories they could tell if they could speak!', '2024-01-10 14:23:00'),
+('2','8','Absolutely, trees are natures air purifiers. Its crucial that we protect our forests and plant more trees to enhance their positive impact on the environment.','2024-02-15 09:15:30'),
+('3','9','Urban green spaces really do make a huge difference. I always feel more at ease walking through tree-lined streets compared to barren urban areas.','2024-03-22 16:45:00'),
+('4','12','Its incredible how interconnected nature is. Protecting trees means preserving entire ecosystems and the diverse species that rely on them.','2024-04-05 07:30:45'),
+('5','22','Ive definitely noticed how calming a walk in the woods can be. Its great to have scientific backing for what many of us have felt intuitively for years.','2024-05-18 12:00:00'),
+('6','16','Urban green spaces really do make a huge difference. I always feel more at ease walking through tree-lined streets compared to barren urban areas.','2024-06-25 18:22:30'),
+('7','20','The inner workings of trees are so intricate. Learning about how they grow and thrive makes me respect them even more!','2024-07-30 23:59:59'),
+('8','7','Trees really do a lot more than just look pretty. Its impressive how they contribute to managing and conserving water.','2024-08-12 06:12:00'),
+('9','1','Its wonderful to see how different cultures value trees. These traditions highlight the universal importance of trees in our lives.','2024-10-15 15:25:00'),
+('10','2','Its amazing how trees support the ecosystem on so many levels. Their impact on soil health is just one more reason to appreciate them.','2024-11-10 00:00:00');

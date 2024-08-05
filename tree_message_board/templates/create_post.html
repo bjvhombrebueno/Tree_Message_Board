@@ -4,7 +4,7 @@
 <!-- Gets the title and content of the post -->
 <h2 class="text-center">Create Post</h2>
 <br>
-    <form action="/create_post" method="POST" class="row needs-validation">
+    <form action="/create_post" method="POST" novalidate>
     
         <div class="container text-center">
             <div class = "row justify-content-center">
@@ -15,7 +15,7 @@
                 <div class = "row justify-content-center">
                     <div class="col-8">
                         <label for="title" class="form-label">Title: </label><br>
-                        <input type="text" class="form-control" name="title" pattern= "(^[a-zA-Z][a-zA-Z\s]{0,60}[a-zA-Z]$)" required />
+                        <input type="text" class="form-control" name="title"  required />
                         <div class="invalid-feedback">
                             Please enter valid Title
                         </div>  

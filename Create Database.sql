@@ -1,9 +1,9 @@
 -- -----------------------------------------------------
 -- Schema Tree_Message_Board
 -- -----------------------------------------------------
--- DROP SCHEMA IF EXISTS `tmb`;
--- CREATE SCHEMA `tmb` DEFAULT CHARACTER SET utf8 ;
--- USE `tmb`;
+DROP SCHEMA IF EXISTS `tmb`;
+CREATE SCHEMA `tmb` DEFAULT CHARACTER SET utf8 ;
+USE `tmb`;
 
 -- -----------------------------------------------------
 -- Table tmb.users

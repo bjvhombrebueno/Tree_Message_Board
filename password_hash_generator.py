@@ -40,12 +40,33 @@ hashing = Hashing(app)
 
 # Replace the example UserAccount objects below with the initial user accounts
 # for your own web app. You can add as many as you need to the list.
-users = [UserAccount('q', 'q'), 
-         UserAccount('w', 'w'),
-         UserAccount('a', 'a'),
-         UserAccount('s', 's'),
-         UserAccount('z', 'z'),
-         UserAccount('x', 'x')]
+users = [UserAccount('user1', 'A7b!eKx9'), 
+         UserAccount('user2', 'm*Z4pRj8'),
+         UserAccount('user3', 'V@r1dXpW'),
+         UserAccount('user4', 'c#L5qTn2'),
+         UserAccount('user5', 'T9p!bHjR'),
+         UserAccount('user6', 'e@N8vKzW'),
+         UserAccount('user7', 'Y$2rZxL1'),
+         UserAccount('user8', 'f#H7sPqB'),
+         UserAccount('user9', 'j*X4vRdN'),
+         UserAccount('user10', 'M2w!QkZ8'),
+         UserAccount('user11', 'o@S3tVbP'),
+         UserAccount('user12', 'R6b#NfDk'),
+         UserAccount('user13', 'k*P8uQjL'),
+         UserAccount('user14', 'Z@5tWnC4'),
+         UserAccount('user15', 'H7x!M1rJ'),
+         UserAccount('user16', 'n#L2vXoT'),
+         UserAccount('user17', 'W@9fGmR6'),
+         UserAccount('user18', 'Q5r*JpZ7'),
+         UserAccount('user19', 'm#Y2dCk8'),
+         UserAccount('user20', 'L3b!TzX1'),
+         UserAccount('user21', 'G4@dVxLp'),
+         UserAccount('user22', 't*H7wKrP'),
+         UserAccount('user23', 'R2#nBcYj'),
+         UserAccount('user24', 'M8@xZqLr'),
+         UserAccount('user25', 'p!J4fVtB'),
+         UserAccount('user26', 'W#5uNkLz'),
+         UserAccount('user27', 'C3*vQjRh')]
 
 print('Username | Password | Hash | Password Matches Hash')
 

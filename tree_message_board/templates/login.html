@@ -18,16 +18,22 @@
 					<div class = "row justify-content-center">
 						<div class="col-auto">
               <br>
-							<img src="/static/trees.png" alt="Tree icon" width="128" height="128">
+							<!-- <img src="/tree_message_board/static/images/trees.png" alt="Tree icon" width="128" height="128"> -->
               
-              <div class="form-floating">
+              <div class="form-floating" novalidate>
                 <input type="text" name = "username" class="form-control" id="floatingInput"  placeholder="Username" required>
                 <label for="floatingInput">Username</label>
+                <div class="invalid-feedback">
+                  Please enter valid username
+                </div>  
               </div>
               
               <div class="form-floating">
                 <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password" required>
                 <label for="floatingPassword">Password</label>
+                <div class="invalid-feedback">
+                  Please enter valid password
+                </div>  
               </div>
               <br>
               <button class="btn btn-secondary" type="submit">Sign in</button>

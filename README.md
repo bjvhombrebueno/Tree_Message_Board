@@ -1,2 +1,4 @@
 # Tree_Message_Board
 Tree_Message_Board COMP639 Assessment
+
+This web app is of a Tree message board named Trees a Crowd. Similar to other message boards there are functions like user registration, creating and deleting posts and replies, profile management, and moderation. To get it to work, the Create database and Populate database SQL files should be run first to generate the required tables. The Python code can be run through the Visual Studio Code when run locally.If running on Pythonanywhere,the code should be pulled from Github adn stored on its own directory and the database scripts should be run.  The config files for the web app should be setup as well to point to the correct directory. All of the profile images should be stored inside the static/images folder. For the profile image upload, the user has to input the filename through a text box.   

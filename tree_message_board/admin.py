@@ -128,6 +128,36 @@ def profileadmin(userid=None):
     # User is not logged in - redirect to login page
     return redirect(url_for('login'))
 
+@app.route('/profile/view/<int:userid>',methods=['GET','POST'])
+def profileview(userid=None):
+    print(userid)
+   # Check if user is loggedin
+    if 'loggedin' in session and session['role'] == 'admin':
+        if userid == None:
+            userid = session['id']
+        else:
+             # We need all the account info for the user so we can display it on the profile page
+            cursor = getCursor()
+            cursor.execute('SELECT * FROM users WHERE user_id = %s', (userid,))
+            account = cursor.fetchone()
+            print(account)
+            image = account['profile_image']
+            print(image)
+            # Set the path to get where the image is coming from   
+            profileImage = os.path.join(app.config["UPLOAD_FOLDER"], image)
+            print(profileImage)
+        # # We need all the account info for the user so we can display it on the profile page
+        # cursor = getCursor()
+        # cursor.execute('SELECT * FROM users WHERE user_id = %s', (userid,))
+        # account = cursor.fetchone()
+        
+        # Show the profile page with account info
+        return render_template('profile_view_only.html', profileimage =profileImage,account=account, username=session['username'], user_role=session['role'])
+    
+    # User is not logged in - redirect to login page
+    return redirect(url_for('login'))
+
+
 @app.route('/moderation', methods=['GET','POST'])
 def moderation():
     # Check if user is loggedin
