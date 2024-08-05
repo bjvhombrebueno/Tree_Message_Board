@@ -3,15 +3,15 @@
 {% block title %}Member Home {% endblock %}
 
 {% block content %}
-<h2>Member Home</h2>
-<p>Welcome back, {{ username }}!</p>
+
+<h2 class="text-white" >Member Home</h2>
+<p class="text-white" >Welcome back, {{ username }}!</p>
   <!-- Displays all the messages in the database -->
   {% for message in allmessages %}
-        <div class ="col-md-6 ">
+  <div class="row justify-content-center"> 
+      <div class ="col-8 ">
           <td><a href="/view_post/{{message['message_id']}}" type="button" class="btn btn-secondary">{{message['title']}}</a></td>
-        </div>
-        <div class ="col-auto ">
-          <p class="text-md-start">{{message['content']}}</p>
+          <p class="text-md-center text-white">{{message['content']}}</p>
         </div>
     {% endfor %}  
 

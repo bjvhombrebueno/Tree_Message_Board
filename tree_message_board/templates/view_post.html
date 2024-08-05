@@ -4,14 +4,17 @@
 <!-- Displays the post along with the replies, with the option to create a new reply -->
 <div class ="container justify-content-center">
     <div class="row justify-content-center">
-        <div class="col-8"><h2 class="text-center">{{messagedata['title']}}</h2></div>
+        <h2 class="text-center text-white">View Post</h2>
+        <br>
+        <br>
+        <div class="col-8"><h2 class="text-center text-white">{{messagedata['title']}}</h2></div>
     </div>
     <div class="row justify-content-center">
-        <div class="col-auto"><h6 class="fst-italic">{{messagedata['username']}}</h2></div>
-        <div class="col-auto"><h6 class="fst-italic">{{messagedata['created_at']}}</h2></div>
+        <div class="col-auto"><h6 class="fst-italic text-white">{{messagedata['username']}}</h2></div>
+        <div class="col-auto"><h6 class="fst-italic text-white">{{messagedata['created_at']}}</h2></div>
     </div>
     <div class="row justify-content-center">
-        <div class="col-8"><p class="text-start">{{messagedata['content']}}</p></div>
+        <div class="col-8"><p class="text-start text-white">{{messagedata['content']}}</p></div>
     </div>
 
 </div>
@@ -19,14 +22,14 @@
 {% for reply in replydata %}
 <div class ="container justify-content-center">
     <div class="row justify-content-center">
-        <div class="col-8"><h2 class="text-center">{{reply['title']}}</h2></div>
+        <div class="col-8"><h2 class="text-center text-white">{{reply['title']}}</h2></div>
     </div>
     <div class="row justify-content-center">
-        <div class="col-auto"><h6 class="text-center">{{reply['username']}}</h2></div>
-        <div class="col-auto"><h6 class="text-center">{{reply['created_at']}}</h2></div>
+        <div class="col-auto"><h6 class="fst-italic text-white">{{reply['username']}}</h2></div>
+        <div class="col-auto"><h6 class="fst-italic text-white">{{reply['created_at']}}</h2></div>
     </div>
     <div class="row justify-content-center">
-        <div class="col-8"><p class="text-start">{{reply['content']}}</p></div>
+        <div class="col-8"><p class="text-start text-white">{{reply['content']}}</p></div>
     </div>
 
 </div>
@@ -39,7 +42,7 @@
                     <input type = "hidden" name = "messagedata" value="{{messagedata}}"/>
                     <input type = "hidden" name = "messageid" value="{{messageid}}"/>
                     <div class="col-6">
-                        <label for="content" class="form-label">Reply</label>
+                        <label for="content" class="form-label text-white">Reply</label>
                         <textarea class="form-control" id="content" name="content" rows="10"></textarea>
                         <div class="invalid-feedback">
                             Please enter content

@@ -9,59 +9,61 @@
 			
 		</head>
 
-	<body>
+	<body class = "bg-success">
 		<div class="register">
-			<h1 class="text-center">Register</h1>
-						
+			<br>
+			<hr>
+			<h1 class="text-center text-white">Register</h1>
+			<hr>			
 			<form action="{{ url_for('register') }}" method="post" novalidate>
 				<!-- Gets the user's data for registration -->
 				<h4 class="text-center">{{ msg }}</h4>
 				<div class="container text-center">
 					<div class = "row justify-content-center">
 						<div class="col-auto">
-							<label for="username" class="form-label">Username: </label><br>
+							<label for="username" class="form-label text-white">Username: </label><br>
 							<input type="text" class="form-control" name="username"   required />
 							<div class="invalid-feedback">
 								Please enter valid username
 							</div>  
 						
-							<label for="password" class="form-label">Password: </label><br>
+							<label for="password" class="form-label text-white">Password: </label><br>
 							<input type="password" class="form-control" name="password"   required />
 							<div class="invalid-feedback">
 								Please enter valid password
 							</div>
 
-							<label for="repassword" class="form-label">Re-enter Password: </label><br>
+							<label for="repassword" class="form-label text-white">Re-enter Password: </label><br>
 							<input type="password" class="form-control" name="repassword"   required />
 							<div class="invalid-feedback">
 								Please enter valid password
 							</div>  
 						
-							<label for="email" class="form-label">Email Address: </label><br>
+							<label for="email" class="form-label text-white">Email Address: </label><br>
 							<input name="email" type="email" id="typeEmail" class="form-control"  required/>
 							<div class="invalid-feedback">
 							Please enter valid email address
 							</div>  
 						
-							<label for="firstname" class="form-label">First name: </label><br>
+							<label for="firstname" class="form-label text-white">First name: </label><br>
 							<input type="text" class="form-control" name="firstname"  required />
 							<div class="invalid-feedback">
 								Please enter valid first name
 							</div>  
 						
-							<label for="lastname" class="form-label">Last name: </label><br>
+							<label for="lastname" class="form-label text-white">Last name: </label><br>
 							<input type="text" class="form-control" name="lastname"   required />
 							<div class="invalid-feedback">
 								Please enter valid last name
 							</div>  
 						
-							<label for="birthdate" class="form-label">Birthdate: </label><br>
+							<label for="birthdate" class="form-label text-white">Birthdate: </label><br>
 							<input name="birthdate" type="date" class="form-control" required/>
 							<div class="invalid-feedback">
 							Please enter valid date
 							</div>  
 						
-							<label for="location" class="form-label">Location: </label><br>
+							<label for="location" class="form-label text-white">Location: </label><br>
 							<input type="text" class="form-control" name="location"  required />
 							<div class="invalid-feedback">
 								Please enter valid location name
@@ -70,7 +72,7 @@
 							<br>
 							<input class="btn btn-secondary" type="submit" value="Register"/>
 							<hr>
-							<a href="{{url_for('login')}}" type="button" class="btn btn-secondary">Login</a>
+							<a href="{{url_for('login')}}" type="button" class="btn btn-secondary" >Login</a>
 						</div>
 					</div>
 					

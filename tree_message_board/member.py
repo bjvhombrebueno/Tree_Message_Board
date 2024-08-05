@@ -354,7 +354,7 @@ def create_post():
 @app.route('/delete_post',methods=['GET','POST'])
 def delete_post():
     if 'loggedin' in session:
-        # Get all the messages and replies of the current user
+        # Get all the messages and replies of the current user, the SQL joins are to make sure that the username is attached to the post or reply
         cursor = getCursor()
         cursor.execute("SELECT * FROM users JOIN messages ON users.user_id = messages.user_id WHERE messages.user_id = %s;", (int(session['id']),))
         messageData = cursor.fetchall()

@@ -8,10 +8,12 @@
 <form action="/access/status/{{userid}}" method="post" autocomplete="off">
 	<div class="container text-center">
 		<div class = "row justify-content-center">
-			<h2 class="text-center">Change Status</h2>
+			<h2 class="text-center text-white">Change Status</h2>
+			<br>
+			<br>
 			<div class="col-auto">
 				<!-- Select the status from a dropdown list-->			
-				<label for="dropdown">Select a status:</label>
+				<label for="dropdown" class="text-center text-white">Select a status:</label>
 				<select id="dropdown" name="status">
 					<option value="'active'" {% if account['status']== 'active' %} selected {% endif %}>active</option>
 					<option value="'inactive'" {% if account['status']== 'inactive' %} selected {% endif %}>inactive</option>

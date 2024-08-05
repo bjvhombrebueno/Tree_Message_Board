@@ -7,9 +7,10 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">Title</th>
-      <th scope="col">Content</th>
-      <th scope="col">Delete</th>
+      <th scope="col" class = "text-center">Title</th>
+      <th scope="col" class = "text-center">Username</th>
+      <th scope="col" class = "text-center">Content</th>
+      <th scope="col" class = "text-center">Delete</th>
     </tr>
   </thead>
   <tbody>
@@ -18,19 +19,19 @@
     <tr> 
       
       <div class = "col-auto">
-          <td>{{message['title']}}</td>
+          <td class = "text-center">{{message['title']}}</td>
       </div>
       <div class = "col-auto">
-        <td>{{message['username']}}</td>
+        <td class = "text-center">{{message['username']}}</td>
     </div>
       <div class = "col-auto">
-          <td>{{message['content']}}</td>
+          <td class = "text-center">{{message['content']}}</td>
       </div>
       <!-- For this part there is links to make a booking and to the customer home page which passes the customer id automatically -->
        <!-- This is done to make it easier to redirect to those pages without entering the name of the customer again -->
       <div class = "col-auto">
         
-        <td><a href="/delete_post_confirmation/{{message['message_id']}}" type="button" class="btn btn-secondary">View</a></td>
+        <td class = "text-center"><a href="/delete_post_confirmation/{{message['message_id']}}" type="button" class="btn btn-secondary">View</a></td>
       </div>
       
     </tr>
@@ -39,20 +40,20 @@
     <tr> 
             
           <div class = "col-auto">
-            <td>{{reply['title']}}</td>
+            <td class = "text-center">{{reply['title']}}</td>
           </div>
           <div class = "col-auto">
-            <td>{{reply['username']}}</td>
+            <td class = "text-center">{{reply['username']}}</td>
           </div>
 
             <div class = "col-auto">
-              <td>{{reply['content']}}</td>
+              <td class = "text-center">{{reply['content']}}</td>
             </div>
           <!-- For this part there is links to make a booking and to the customer home page which passes the customer id automatically -->
            <!-- This is done to make it easier to redirect to those pages without entering the name of the customer again -->
             <div class = "col-auto">
             
-                <td><a href="/delete_reply_confirmation/{{reply['reply_id']}}" type="button" class="btn btn-secondary">View</a></td> 
+                <td class = "text-center"><a href="/delete_reply_confirmation/{{reply['reply_id']}}" type="button" class="btn btn-secondary">View</a></td> 
             </div>
           
         </tr>

@@ -7,10 +7,12 @@
 <form action="/access/role/{{userid}}" method="post" autocomplete="off">
 	<div class="container text-center">
 		<div class = "row justify-content-center">
-			<h2 class="text-center">Change Role</h2>
+			<h2 class="text-center text-white">Change Role</h2>
+			<br>
+			<br>
 			<div class="col-auto">
 				<!-- Select the role from a dropdown list-->
-				<label for="dropdown">Select a role:</label>
+				<label for="dropdown" class="text-center text-white" >Select a role:</label>
 				<select id="dropdown" name="role">
 					<option value="'member'" {% if account['role']== 'member' %} selected {% endif %}>member</option>
 					<option value="'moderator'" {% if account['role']== 'moderator' %} selected {% endif %}>moderator</option>
